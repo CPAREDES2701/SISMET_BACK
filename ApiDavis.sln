@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiDavis", "ApiDavis\ApiDavis.csproj", "{AEF0EE35-3675-46ED-BDDD-F402B472F03B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiDavis.Core", "ApiDavis.Core\ApiDavis.Core.csproj", "{DE2E7458-0E2C-4AC9-B212-01A56F2612E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiDavis.Infraestructure", "ApiDavis.Infraestructure\ApiDavis.Infraestructure.csproj", "{BB12090C-E5B0-4ACE-A731-53C05FD7228E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{2001D7D0-F8E4-4FAF-9C36-6DD332934C42}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DavisApi.UnitTests", "DavisApi.UnitTests\DavisApi.UnitTests.csproj", "{A130DEEF-8073-4F0F-9A79-B5F024A55E47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DavisApi.IntegrationTests", "DavisApi.IntegrationTests\DavisApi.IntegrationTests.csproj", "{F237F7C3-AF08-42B6-8B0F-3C8480FC2135}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AEF0EE35-3675-46ED-BDDD-F402B472F03B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEF0EE35-3675-46ED-BDDD-F402B472F03B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEF0EE35-3675-46ED-BDDD-F402B472F03B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEF0EE35-3675-46ED-BDDD-F402B472F03B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE2E7458-0E2C-4AC9-B212-01A56F2612E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE2E7458-0E2C-4AC9-B212-01A56F2612E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE2E7458-0E2C-4AC9-B212-01A56F2612E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE2E7458-0E2C-4AC9-B212-01A56F2612E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB12090C-E5B0-4ACE-A731-53C05FD7228E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB12090C-E5B0-4ACE-A731-53C05FD7228E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB12090C-E5B0-4ACE-A731-53C05FD7228E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB12090C-E5B0-4ACE-A731-53C05FD7228E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A130DEEF-8073-4F0F-9A79-B5F024A55E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A130DEEF-8073-4F0F-9A79-B5F024A55E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A130DEEF-8073-4F0F-9A79-B5F024A55E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A130DEEF-8073-4F0F-9A79-B5F024A55E47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F237F7C3-AF08-42B6-8B0F-3C8480FC2135}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F237F7C3-AF08-42B6-8B0F-3C8480FC2135}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F237F7C3-AF08-42B6-8B0F-3C8480FC2135}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F237F7C3-AF08-42B6-8B0F-3C8480FC2135}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A130DEEF-8073-4F0F-9A79-B5F024A55E47} = {2001D7D0-F8E4-4FAF-9C36-6DD332934C42}
+		{F237F7C3-AF08-42B6-8B0F-3C8480FC2135} = {2001D7D0-F8E4-4FAF-9C36-6DD332934C42}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6BE3727B-600E-4E6B-B766-C255950F4CCC}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,15 @@
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\bin\Debug\net6.0\ApiDavis.Infraestructure.deps.json
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\bin\Debug\net6.0\ApiDavis.Infraestructure.dll
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\bin\Debug\net6.0\ApiDavis.Infraestructure.pdb
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\bin\Debug\net6.0\ApiDavis.Core.dll
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\bin\Debug\net6.0\ApiDavis.Core.pdb
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.csproj.AssemblyReference.cache
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.AssemblyInfoInputs.cache
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.AssemblyInfo.cs
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.csproj.CoreCompileInputs.cache
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.csproj.CopyComplete
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.dll
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\obj\Debug\net6.0\refint\ApiDavis.Infraestructure.dll
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.pdb
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\obj\Debug\net6.0\ref\ApiDavis.Infraestructure.dll
