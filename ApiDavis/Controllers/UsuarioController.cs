@@ -2,12 +2,15 @@
 using ApiDavis.Core.Entities;
 using ApiDavis.Core.Interfaces;
 using ApiDavis.Core.Utilidades;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiDavis.Controllers
 {
     [Route("api/Usuario")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UsuarioController: ControllerBase
     {
         private readonly IUsuarioRepository _usuarioRepository;

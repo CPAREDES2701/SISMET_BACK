@@ -1,5 +1,6 @@
 ﻿using ApiDavis.Core.DTOs;
 using ApiDavis.Core.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,7 @@ namespace ApiDavis.Controllers
 {
     [ApiController]
     [Route("api/Seguridad")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class Seguridad: ControllerBase
     {
         private readonly ISeguridadRepository seguridadRepository;

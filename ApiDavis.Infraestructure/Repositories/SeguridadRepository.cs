@@ -23,7 +23,7 @@ namespace ApiDavis.Infraestructure.Repositories
         public async Task<JwtResponse> Autenticar(UsuarioLoginDTO usuario)
         {
             var encriptado = hashService.Encriptar(usuario.Password);
-            var resultado = await _context.Usuario.AnyAsync(u => u.correo == usuario.usuario && u.Contrasena == encriptado);
+            var resultado = await _context.Usuario.AnyAsync(u => u.UserName == usuario.usuario && u.Contrasena == encriptado);
             if (resultado)
             {
                 return await hashService.ConstruirToken(usuario);
