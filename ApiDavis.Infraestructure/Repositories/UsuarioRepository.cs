@@ -103,14 +103,15 @@ namespace ApiDavis.Infraestructure.Repositories
         public async Task<ExportUsuarioDto> GetUsuarios(PaginacionDTO paginacionDTO)
         {
             ExportUsuarioDto objUsuarios = new ExportUsuarioDto();
-            var queryable = _context.Usuario.AsQueryable();
-            double cantidad = await queryable.CountAsync();
-            var usuarios = await queryable.OrderBy(usuario => usuario.Nombres).Paginar(paginacionDTO)
-                .Where(x => paginacionDTO.correo !=""? x.correo==paginacionDTO.correo:true)
+            var queryable = _context.Usuario
+                .Where(x => paginacionDTO.correo != "" ? x.correo == paginacionDTO.correo : true)
                 .Where(x => paginacionDTO.username != "" ? x.UserName == paginacionDTO.username : true)
                 .Where(x => paginacionDTO.Nombres != "" ? x.Nombres == paginacionDTO.Nombres : true)
                 .Where(x => paginacionDTO.Apellidos != "" ? x.Apellidos == paginacionDTO.Apellidos : true)
-                .ToListAsync();
+                .AsQueryable();
+            double cantidad = await queryable.CountAsync();
+            var usuarios = await queryable.OrderBy(usuario => usuario.Nombres).Paginar(paginacionDTO)
+                                .ToListAsync();
             objUsuarios.cantidad = Convert.ToInt32(cantidad);
             objUsuarios.Usuarios = usuarios;
             return objUsuarios;
