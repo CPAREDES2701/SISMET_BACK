@@ -10,5 +10,6 @@ namespace ApiDavis.Core.DTOs
     {
         public string AuthToken { get; set; }
         public DateTime ExpireIn { get; set; }
+        public bool Estado { get; set; }
     }
 }

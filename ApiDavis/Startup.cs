@@ -82,8 +82,7 @@ namespace ApiDavis
                     .ToArray();
                 opciones.AddDefaultPolicy(builder =>
                 {
-                    builder.WithOrigins(urlList).AllowAnyMethod().AllowAnyHeader().
-                    WithExposedHeaders(new string[] { "cantidadTotalRegistros" });
+                    builder.WithOrigins(urlList).AllowAnyMethod().AllowAnyHeader();                    
                 });
 
             });

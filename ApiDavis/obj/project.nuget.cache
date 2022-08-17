@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "QjaGlIlEOym74+LWVhO40lE5FDnWfnxGMBrnu3Mv8gaqJSwpL5x2YyNJndzzzCZaDQQmWEa2wzSuB2jkewyt+Q==",
+  "dgSpecHash": "fBDJD2iWxbn/+PMOZbLlc2TOM1UsTAoSKDiF/v8blJ/65N1SEjmaUuR2qj4dwdUtBkQw6HqbeWT+TwjV1geYqA==",
   "success": true,
   "projectFilePath": "C:\\APIDAVISBACKEND\\ApiDavis\\ApiDavis\\ApiDavis.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\cpare\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
+    "C:\\Users\\cpare\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",
     "C:\\Users\\cpare\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
     "C:\\Users\\cpare\\.nuget\\packages\\google.protobuf\\3.19.4\\google.protobuf.3.19.4.nupkg.sha512",
     "C:\\Users\\cpare\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "UesJjBOwv8TVl5lfwIXvFaBrmLI3wgPc3GpXQeXqJXPZljYoV+xX8yZgw4KDUKwA/nORR48LkanRxgRHm2epaw==",
+  "dgSpecHash": "cu29mIsXycdkzN2a2LoN3D1IZbp6xU6Yx9ZLoQ88mrzcn4ilMIbbUhemNKc5Ti0iN/B2aQss79e1LlG8Wh/G3A==",
   "success": true,
   "projectFilePath": "C:\\APIDAVISBACKEND\\ApiDavis\\ApiDavis.Core\\ApiDavis.Core.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\cpare\\.nuget\\packages\\automapper\\11.0.1\\automapper.11.0.1.nupkg.sha512",
+    "C:\\Users\\cpare\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",
+    "C:\\Users\\cpare\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
     "C:\\Users\\cpare\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.8\\microsoft.aspnetcore.cryptography.internal.6.0.8.nupkg.sha512",
     "C:\\Users\\cpare\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\6.0.8\\microsoft.aspnetcore.cryptography.keyderivation.6.0.8.nupkg.sha512",
     "C:\\Users\\cpare\\.nuget\\packages\\microsoft.aspnetcore.http.abstractions\\2.2.0\\microsoft.aspnetcore.http.abstractions.2.2.0.nupkg.sha512",

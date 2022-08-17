@@ -24,20 +24,20 @@
           "ApiDavis.dll": {}
         }
       },
-      "AutoMapper/11.0.1": {
+      "AutoMapper/11.0.0": {
         "dependencies": {
           "Microsoft.CSharp": "4.7.0"
         },
         "runtime": {
           "lib/netstandard2.1/AutoMapper.dll": {
             "assemblyVersion": "11.0.0.0",
-            "fileVersion": "11.0.1.0"
+            "fileVersion": "11.0.0.0"
           }
         }
       },
       "AutoMapper.Extensions.Microsoft.DependencyInjection/11.0.0": {
         "dependencies": {
-          "AutoMapper": "11.0.1",
+          "AutoMapper": "11.0.0",
           "Microsoft.Extensions.Options": "6.0.0"
         },
         "runtime": {
@@ -1033,7 +1033,7 @@
       },
       "ApiDavis.Core/1.0.0": {
         "dependencies": {
-          "AutoMapper": "11.0.1",
+          "AutoMapper.Extensions.Microsoft.DependencyInjection": "11.0.0",
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "6.0.8",
           "Microsoft.AspNetCore.Http.Abstractions": "2.2.0",
           "Microsoft.EntityFrameworkCore": "6.0.8",
@@ -1047,6 +1047,7 @@
       "ApiDavis.Infraestructure/1.0.0": {
         "dependencies": {
           "ApiDavis.Core": "1.0.0",
+          "Microsoft.AspNetCore.JsonPatch": "6.0.8",
           "Microsoft.AspNetCore.Mvc.Core": "2.2.5",
           "Microsoft.EntityFrameworkCore": "6.0.8"
         },
@@ -1062,12 +1063,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "AutoMapper/11.0.1": {
+    "AutoMapper/11.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-WIadGC1pIwbnyTubvI577p3F++Bsj9q2Q3OaAc1I0QS+JhupN1xkdrPBhI9bPIeg63zM81tZplUNYkqU1HE5jQ==",
-      "path": "automapper/11.0.1",
-      "hashPath": "automapper.11.0.1.nupkg.sha512"
+      "sha512": "sha512-+596AnKykYCk9RxXCEF4GYuapSebQtFVvIA1oVG1rrRkCLAC7AkWehJ0brCfYUbdDW3v1H/p0W3hob7JoXGjMw==",
+      "path": "automapper/11.0.0",
+      "hashPath": "automapper.11.0.0.nupkg.sha512"
     },
     "AutoMapper.Extensions.Microsoft.DependencyInjection/11.0.0": {
       "type": "package",

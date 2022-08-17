@@ -53,7 +53,10 @@ namespace ApiDavis.Infraestructure.Repositories
             usuario.Contrasena = hashService.Encriptar(usuario.Contrasena);
 
             var usuarios = _mapper.Map<Usuario>(usuario);
-
+            usuarios.Intentos = 0;
+            usuarios.Estado = true;
+            usuarios.FechaCreacion = DateTime.Now;
+            usuarios.FechaModificacion = DateTime.Now;
             _context.Add(usuarios);
             await _context.SaveChangesAsync();
 
@@ -101,7 +104,6 @@ namespace ApiDavis.Infraestructure.Repositories
         {
             var queryable = _context.Usuario.AsQueryable();
             double cantidad = await queryable.CountAsync();
-
             var usuarios = await queryable.OrderBy(usuario => usuario.Nombres).Paginar(paginacionDTO)
                 .Where(x => paginacionDTO.correo !=""? x.correo==paginacionDTO.correo:true)
                 .Where(x => paginacionDTO.username != "" ? x.UserName == paginacionDTO.username : true)
@@ -109,7 +111,6 @@ namespace ApiDavis.Infraestructure.Repositories
                 .Where(x => paginacionDTO.Apellidos != "" ? x.Apellidos == paginacionDTO.Apellidos : true)
                 .ToListAsync();
             return usuarios;
-            
         }
 
        

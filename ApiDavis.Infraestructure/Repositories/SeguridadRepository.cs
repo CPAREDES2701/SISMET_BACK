@@ -1,6 +1,7 @@
 ﻿using ApiDavis.Core.DTOs;
 using ApiDavis.Core.Interfaces;
 using ApiDavis.Core.Utilidades;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,11 +24,51 @@ namespace ApiDavis.Infraestructure.Repositories
         public async Task<JwtResponse> Autenticar(UsuarioLoginDTO usuario)
         {
             var encriptado = hashService.Encriptar(usuario.Password);
-            var resultado = await _context.Usuario.AnyAsync(u => u.UserName == usuario.usuario && u.Contrasena == encriptado);
-            if (resultado)
+
+            var existe = await _context.Usuario.AnyAsync(u => u.UserName == usuario.usuario);
+            
+            var resultado = await _context.Usuario.Where(u => u.UserName == usuario.usuario && u.Contrasena == encriptado).FirstOrDefaultAsync();
+
+            
+            if (existe && resultado == null) 
             {
+                var usuarioUpdate = await _context.Usuario.Where(u => u.UserName == usuario.usuario).FirstOrDefaultAsync();
+                if (usuarioUpdate.Estado == true)
+                {
+                    if (usuarioUpdate.Intentos < 3)
+                    {
+                        if (usuarioUpdate.Intentos == 2)
+                        {
+                            usuarioUpdate.Estado = false;
+                            _context.Update(usuarioUpdate);
+                            await _context.SaveChangesAsync();
+                        }
+                        usuarioUpdate.Intentos = usuarioUpdate.Intentos + 1;
+                        _context.Update(usuarioUpdate);
+                        await _context.SaveChangesAsync();
+                        return new JwtResponse()
+                        {
+                            Estado = true
+
+                        };
+
+                    }
+                }
+                else
+                {
+                    return new JwtResponse { Estado = false };
+                }
+                
+                
+                
+               
+            }
+
+            if (resultado!=null)
+            {   if(resultado.Estado==false) return new JwtResponse { Estado = false };
                 return await hashService.ConstruirToken(usuario);
             }
+            
             return new JwtResponse { };
         }
     }

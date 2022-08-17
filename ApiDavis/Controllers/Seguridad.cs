@@ -27,9 +27,22 @@ namespace ApiDavis.Controllers
             }
             var jwtToken = await seguridadRepository.Autenticar(usuario);
 
+            if (!jwtToken.Estado)
+            {
+                var objeto = new
+                {
+                    mensaje = "Usuario Bloqueado"
+                };
+                return new OkObjectResult(new JsonResult(objeto));
+            }
             if(jwtToken.AuthToken == null)
             {
-                return BadRequest("Datos incorrecots");
+                var objeto = new
+                {
+                    mensaje = "Datos Incorrectos"
+                };
+                return new OkObjectResult(new JsonResult(objeto));
+                
             }
             return new OkObjectResult(new JsonResult(jwtToken));
         }
