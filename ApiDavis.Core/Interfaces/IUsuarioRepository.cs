@@ -13,6 +13,7 @@ namespace ApiDavis.Core.Interfaces
         Task<ExportUsuarioDto> GetUsuarios(PaginacionDTO paginacionDTO);
         Task<Usuario> GetUsuarios(int id);
         Task<bool> CrearUsuario(Usuario usuario);
+        Task<bool> ActualizarUsuario(UsuarioRequestDTO usuario, int id);
         Task<bool> CrearUsuario2(UsuarioRequestDTO usuario);
 
         Task<ResponseDTO> EliminarUsuario(int id);

@@ -28,6 +28,38 @@ namespace ApiDavis.Infraestructure.Repositories
             this.hashService = hashService;
         }
 
+        public async Task<bool> ActualizarUsuario(UsuarioRequestDTO usuario, int id)
+        {
+            var existe = await _context.Usuario.AnyAsync(x => x.Id == id);
+            if (!existe)
+            {
+                return false;
+            }
+            else
+            {
+                var usuarioInfo = await _context.Usuario.Where(x => x.Id == id).FirstOrDefaultAsync();
+                if (usuarioInfo != null)
+                {
+                    usuarioInfo.Apellidos = usuario.Apellidos;
+                    usuarioInfo.Nombres = usuario.Nombres;
+                    usuarioInfo.NroDocumento = usuario.NroDocumento;
+                    usuarioInfo.UserName = usuario.UserName;
+                    usuarioInfo.Contrasena = hashService.Encriptar(usuario.Contrasena);
+                    usuarioInfo.correo = usuario.correo;
+                    usuarioInfo.TipoDocumento = usuario.TipoDocumento;
+                    _context.Update(usuarioInfo);
+                    await _context.SaveChangesAsync();
+                   
+                }
+                return true;
+            }
+                   
+            
+
+            
+
+        }
+
         public async Task<bool> CrearUsuario(Usuario usuario)
         {
             var existeUsuario = await _context.Usuario.AnyAsync(p => p.UserName == usuario.UserName || p.correo == usuario.correo || p.NroDocumento == usuario.NroDocumento);

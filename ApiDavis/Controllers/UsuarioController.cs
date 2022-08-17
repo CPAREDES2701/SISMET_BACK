@@ -42,16 +42,27 @@ namespace ApiDavis.Controllers
 
             return Ok(usuarios);
         }
-        //[HttpPost]
-        //public async Task<ActionResult> CrearUsuario(Usuario usuario)
-        //{
-        //    var data =await _usuarioRepository.CrearUsuario(usuario);
-        //    if (data)
-        //    {
-        //        return BadRequest("Ya existe un usuario registrado");
-        //    }
-        //    return Ok("Se registró el usuario correctamente");
-        //}
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult> ActualizarUsuario([FromBody] UsuarioRequestDTO usuario, int id)
+        {
+            var data = await _usuarioRepository.ActualizarUsuario(usuario,id);
+            
+            if (!data)
+            {
+                var objeto = new
+                {
+                    mensaje = "El usuario a editar no existe",
+                    estado = false
+                };
+                return new OkObjectResult(new JsonResult(objeto));
+            }
+            var objetoOk = new
+            {
+                mensaje = "El usuario ha sido actualizado correctamente",
+                estado = true
+            };
+             return new OkObjectResult(new JsonResult(objetoOk));
+        }
         [HttpPost("agregar")]
         public async Task<ActionResult> CrearUsuarioDTO(UsuarioRequestDTO usuario)
         {
