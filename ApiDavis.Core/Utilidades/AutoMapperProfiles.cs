@@ -13,8 +13,10 @@ namespace ApiDavis.Core.Utilidades
     {
         public AutoMapperProfiles()
         {
+
             CreateMap<UsuarioRequestDTO, Usuario>();
             CreateMap<Usuario, UsuarioRequestDTO>();
+            CreateMap<Usuario, UsuarioResponseDTO>();
         }
     }
 }

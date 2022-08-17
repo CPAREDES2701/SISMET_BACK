@@ -15,6 +15,8 @@ namespace ApiDavis.Infraestructure.Repositories
         {
             CreateMap<UsuarioRequestDTO, Usuario>();
             CreateMap<Usuario, UsuarioRequestDTO>();
+            CreateMap<Usuario,UsuarioResponseDTO>();
+            
         }
     }
 }

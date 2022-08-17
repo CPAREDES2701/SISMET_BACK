@@ -10,7 +10,7 @@ namespace ApiDavis.Core.Interfaces
 {
     public interface IUsuarioRepository
     {
-        Task<IEnumerable<Usuario>> GetUsuarios(PaginacionDTO paginacionDTO);
+        Task<ExportUsuarioDto> GetUsuarios(PaginacionDTO paginacionDTO);
         Task<Usuario> GetUsuarios(int id);
         Task<bool> CrearUsuario(Usuario usuario);
         Task<bool> CrearUsuario2(UsuarioRequestDTO usuario);

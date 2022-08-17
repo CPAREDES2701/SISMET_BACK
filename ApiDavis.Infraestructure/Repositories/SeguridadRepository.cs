@@ -71,5 +71,11 @@ namespace ApiDavis.Infraestructure.Repositories
             
             return new JwtResponse { };
         }
+
+        public Task RecuperarContraseña(RecuperarContrasenaDTO usuario)
+        {
+
+            throw new NotImplementedException();
+        }
     }
 }

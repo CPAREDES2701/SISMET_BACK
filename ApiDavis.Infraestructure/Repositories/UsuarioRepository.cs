@@ -100,8 +100,9 @@ namespace ApiDavis.Infraestructure.Repositories
        
             return response;
         }
-        public async Task<IEnumerable<Usuario>> GetUsuarios(PaginacionDTO paginacionDTO)
+        public async Task<ExportUsuarioDto> GetUsuarios(PaginacionDTO paginacionDTO)
         {
+            ExportUsuarioDto objUsuarios = new ExportUsuarioDto();
             var queryable = _context.Usuario.AsQueryable();
             double cantidad = await queryable.CountAsync();
             var usuarios = await queryable.OrderBy(usuario => usuario.Nombres).Paginar(paginacionDTO)
@@ -110,7 +111,9 @@ namespace ApiDavis.Infraestructure.Repositories
                 .Where(x => paginacionDTO.Nombres != "" ? x.Nombres == paginacionDTO.Nombres : true)
                 .Where(x => paginacionDTO.Apellidos != "" ? x.Apellidos == paginacionDTO.Apellidos : true)
                 .ToListAsync();
-            return usuarios;
+            objUsuarios.cantidad = Convert.ToInt32(cantidad);
+            objUsuarios.Usuarios = usuarios;
+            return objUsuarios;
         }
 
        

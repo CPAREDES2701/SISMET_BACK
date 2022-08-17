@@ -21,7 +21,7 @@ namespace ApiDavis.Controllers
             _usuarioRepository = usuarioRepository;
             this.hashService = hashService;
         }
-
+        [AllowAnonymous]
         [HttpPost("ObtenerUsuarios")]
         public async Task<ActionResult> GetUsuarios( PaginacionDTO paginacionDTO)
         {
