@@ -22,10 +22,10 @@ namespace ApiDavis.Controllers
             this.hashService = hashService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetUsuarios()
+        [HttpPost("ObtenerUsuarios")]
+        public async Task<ActionResult> GetUsuarios( PaginacionDTO paginacionDTO)
         {
-            var usuarios = await _usuarioRepository.GetUsuarios();
+            var usuarios = await _usuarioRepository.GetUsuarios(paginacionDTO);
 
             return Ok(usuarios);
         }

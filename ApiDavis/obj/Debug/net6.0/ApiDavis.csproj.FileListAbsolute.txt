@@ -74,3 +74,5 @@ C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\ApiDavis.Core.pdb
 C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\ApiDavis.Infraestructure.pdb
 C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\AutoMapper.dll
 C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\Microsoft.DotNet.PlatformAbstractions.dll
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\Microsoft.Extensions.DependencyModel.dll

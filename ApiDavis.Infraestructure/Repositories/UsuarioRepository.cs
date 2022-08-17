@@ -3,6 +3,8 @@ using ApiDavis.Core.Entities;
 using ApiDavis.Core.Interfaces;
 using ApiDavis.Core.Utilidades;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +19,7 @@ namespace ApiDavis.Infraestructure.Repositories
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
         private readonly HashService hashService;
+        
 
         public UsuarioRepository(ApplicationDbContext context, IMapper mapper, HashService hashService)
         {
@@ -94,13 +97,22 @@ namespace ApiDavis.Infraestructure.Repositories
        
             return response;
         }
-
-        public async Task<IEnumerable<Usuario>> GetUsuarios()
+        public async Task<IEnumerable<Usuario>> GetUsuarios(PaginacionDTO paginacionDTO)
         {
-            var usuarios = await _context.Usuario.ToListAsync();
+            var queryable = _context.Usuario.AsQueryable();
+            double cantidad = await queryable.CountAsync();
+
+            var usuarios = await queryable.OrderBy(usuario => usuario.Nombres).Paginar(paginacionDTO)
+                .Where(x => paginacionDTO.correo !=""? x.correo==paginacionDTO.correo:true)
+                .Where(x => paginacionDTO.username != "" ? x.UserName == paginacionDTO.username : true)
+                .Where(x => paginacionDTO.Nombres != "" ? x.Nombres == paginacionDTO.Nombres : true)
+                .Where(x => paginacionDTO.Apellidos != "" ? x.Apellidos == paginacionDTO.Apellidos : true)
+                .ToListAsync();
             return usuarios;
+            
         }
 
+       
         public async Task<Usuario> GetUsuarios(int id)
         {
             var existeUsuario = await _context.Usuario.FirstOrDefaultAsync(x => x.Id == id && x.Estado == true);

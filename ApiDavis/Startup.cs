@@ -29,6 +29,7 @@ namespace ApiDavis
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
             services.AddTransient<ISeguridadRepository, SeguridadRepository>();
             services.AddTransient<HashService>();
+            
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -74,6 +75,18 @@ namespace ApiDavis
                 });
             });
             services.AddAutoMapper(typeof(Startup));
+
+            services.AddCors(opciones =>
+            {
+                var urlList = Configuration.GetSection("AllowedOrigin").GetChildren().Select(c => c.Value)
+                    .ToArray();
+                opciones.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins(urlList).AllowAnyMethod().AllowAnyHeader().
+                    WithExposedHeaders(new string[] { "cantidadTotalRegistros" });
+                });
+
+            });
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -85,6 +98,7 @@ namespace ApiDavis
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors();
             app.UseAuthorization();
 
             app.UseEndpoints(options =>
