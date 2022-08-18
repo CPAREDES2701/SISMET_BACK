@@ -88,6 +88,5 @@ namespace ApiDavis.Controllers
             var resultado = await _usuarioRepository.EliminarUsuario(id);
             return Ok(resultado);
         }
-       
     }
 }
