@@ -28,12 +28,14 @@ namespace ApiDavis.Infraestructure.Repositories
             this.hashService = hashService;
         }
 
-        public async Task<bool> ActualizarUsuario(UsuarioRequestDTO usuario, int id)
+        public async Task<UsuarioExisteDTO> ActualizarUsuario(UsuarioRequestDTO usuario, int id)
         {
+            UsuarioExisteDTO obj = new UsuarioExisteDTO();
             var existe = await _context.Usuario.AnyAsync(x => x.Id == id);
             if (!existe)
             {
-                return false;
+                obj.existe = 1;
+                return obj;
             }
             else
             {
@@ -47,11 +49,18 @@ namespace ApiDavis.Infraestructure.Repositories
                     usuarioInfo.Contrasena = hashService.Encriptar(usuario.Contrasena);
                     usuarioInfo.correo = usuario.correo;
                     usuarioInfo.TipoDocumento = usuario.TipoDocumento;
+                    var existes = await _context.Usuario.AnyAsync(x => (x.UserName == usuarioInfo.UserName || x.NroDocumento == usuario.NroDocumento || x.correo == usuarioInfo.correo) && x.Id != usuarioInfo.Id);
+                    if (existes)
+                    {
+                        obj.existe = 2;
+                        return obj;
+                    }
                     _context.Update(usuarioInfo);
                     await _context.SaveChangesAsync();
                    
                 }
-                return true;
+                obj.existe = 3;
+                return obj;
             }
                    
             

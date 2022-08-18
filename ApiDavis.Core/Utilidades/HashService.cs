@@ -1,4 +1,5 @@
 ﻿using ApiDavis.Core.DTOs;
+using ApiDavis.Core.Entities;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -48,12 +49,13 @@ namespace ApiDavis.Core.Utilidades
             return Convert.ToBase64String(cipherTextBytes);
         }
 
-        public async Task<JwtResponse> ConstruirToken(UsuarioLoginDTO credencialesUsuario)
+        public async Task<JwtResponse> ConstruirToken(Usuario credencialesUsuario)
         {
             var claims = new List<Claim>()
             {
-                new Claim("email", credencialesUsuario.usuario),
-                new Claim("lo que yo quiera","cualquier otro valor")
+                new Claim("Id", credencialesUsuario.Id.ToString()),
+                new Claim("userName", credencialesUsuario.UserName),
+                new Claim("email",credencialesUsuario.correo)
             };
          
             var llave = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ASK9DASDASJD9ASJD9ASJDA9SJDAS9JDAS9JDA9SJD9ASJDAS9JDAS9DJAS9JDAS9DJAS9DJAS9DJAS9DAJS"));

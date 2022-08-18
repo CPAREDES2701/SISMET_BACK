@@ -26,7 +26,16 @@ namespace ApiDavis.Infraestructure.Repositories
             var encriptado = hashService.Encriptar(usuario.Password);
 
             var existe = await _context.Usuario.AnyAsync(u => u.UserName == usuario.usuario);
-            
+
+            if (!existe)
+            {
+                return new JwtResponse()
+                {
+                    noExiste = true
+
+                };
+            }
+
             var resultado = await _context.Usuario.Where(u => u.UserName == usuario.usuario && u.Contrasena == encriptado).FirstOrDefaultAsync();
 
             
@@ -58,15 +67,18 @@ namespace ApiDavis.Infraestructure.Repositories
                 {
                     return new JwtResponse { Estado = false };
                 }
-                
-                
-                
-               
+
+
+
+
             }
+            
 
             if (resultado!=null)
             {   if(resultado.Estado==false) return new JwtResponse { Estado = false };
-                return await hashService.ConstruirToken(usuario);
+                var usuarioToken = await _context.Usuario.Where(x => x.UserName == usuario.usuario).FirstOrDefaultAsync();
+
+                return await hashService.ConstruirToken(usuarioToken);
             }
             
             return new JwtResponse { };
