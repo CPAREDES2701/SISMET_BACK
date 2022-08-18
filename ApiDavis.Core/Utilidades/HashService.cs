@@ -48,6 +48,25 @@ namespace ApiDavis.Core.Utilidades
 
             return Convert.ToBase64String(cipherTextBytes);
         }
+        public  string Desencriptar(string encryptedText)
+        {
+            if (string.IsNullOrEmpty(encryptedText))
+                return default;
+
+            var cipherTextBytes = Convert.FromBase64String(encryptedText);
+            var keyBytes = new Rfc2898DeriveBytes(PasswordHash, Encoding.ASCII.GetBytes(SaltKey)).GetBytes(KeySize / 8);
+            var symmetricKey = new RijndaelManaged { Mode = CipherMode.CBC, Padding = PaddingMode.None };
+
+            var decryptor = symmetricKey.CreateDecryptor(keyBytes, Encoding.ASCII.GetBytes(VIKey));
+            var memoryStream = new MemoryStream(cipherTextBytes);
+            var cryptoStream = new CryptoStream(memoryStream, decryptor, CryptoStreamMode.Read);
+            var plainTextBytes = new byte[cipherTextBytes.Length];
+
+            var decryptedByteCount = cryptoStream.Read(plainTextBytes, 0, plainTextBytes.Length);
+            memoryStream.Close();
+            cryptoStream.Close();
+            return Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount).TrimEnd("\0".ToCharArray());
+        }
 
         public async Task<JwtResponse> ConstruirToken(Usuario credencialesUsuario)
         {

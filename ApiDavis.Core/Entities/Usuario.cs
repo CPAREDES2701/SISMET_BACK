@@ -20,6 +20,10 @@ namespace ApiDavis.Core.Entities
         public string TipoDocumento { get; set; }
         public string NroDocumento { get; set; }
         public string correo { get; set; }
+        public int EmpresaId { get; set; }
+        public Empresa Empresa { get; set; }
+        public int RolId { get; set; }
+        public Rol Rol { get; set; }
 
     }
 }

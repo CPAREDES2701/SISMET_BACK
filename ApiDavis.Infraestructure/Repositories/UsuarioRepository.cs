@@ -49,6 +49,8 @@ namespace ApiDavis.Infraestructure.Repositories
                     usuarioInfo.Contrasena = hashService.Encriptar(usuario.Contrasena);
                     usuarioInfo.correo = usuario.correo;
                     usuarioInfo.TipoDocumento = usuario.TipoDocumento;
+                    usuarioInfo.EmpresaId = usuario.EmpresaId;
+                    usuarioInfo.RolId = usuario.RolId;
                     var existes = await _context.Usuario.AnyAsync(x => (x.UserName == usuarioInfo.UserName || x.NroDocumento == usuario.NroDocumento || x.correo == usuarioInfo.correo) && x.Id != usuarioInfo.Id);
                     if (existes)
                     {
@@ -145,6 +147,8 @@ namespace ApiDavis.Infraestructure.Repositories
         {
             ExportUsuarioDto objUsuarios = new ExportUsuarioDto();
             var queryable = _context.Usuario
+                .Include(x => x.Rol)
+                .Include(x => x.Empresa)
                 .Where(x => paginacionDTO.correo != "" ? x.correo == paginacionDTO.correo : true)
                 .Where(x => paginacionDTO.username != "" ? x.UserName == paginacionDTO.username : true)
                 .Where(x => paginacionDTO.Nombres != "" ? x.Nombres == paginacionDTO.Nombres : true)
@@ -161,7 +165,15 @@ namespace ApiDavis.Infraestructure.Repositories
        
         public async Task<Usuario> GetUsuarios(int id)
         {
-            var existeUsuario = await _context.Usuario.FirstOrDefaultAsync(x => x.Id == id && x.Estado == true);
+            var existeUsuario = await _context.Usuario
+                .Include(x => x.Empresa)
+                .Include(x => x.Rol)
+                .FirstOrDefaultAsync(x => x.Id == id && x.Estado == true);
+
+            if(existeUsuario!= null)
+            {
+                existeUsuario.Contrasena = hashService.Desencriptar(existeUsuario.Contrasena);
+            }
             
             return existeUsuario;
 

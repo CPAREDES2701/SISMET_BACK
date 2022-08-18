@@ -25,6 +25,8 @@ namespace ApiDavis.Core.DTOs
         [EmailAddress]
         public string correo { get; set; }
        
-       
+        public int RolId { get; set; }
+        public int EmpresaId { get; set; }
+
     }
 }
