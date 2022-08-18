@@ -10,7 +10,7 @@ namespace ApiDavis.Controllers
 {
     [Route("api/Usuario")]
     [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UsuarioController: ControllerBase
     {
         private readonly IUsuarioRepository _usuarioRepository;
@@ -47,11 +47,20 @@ namespace ApiDavis.Controllers
         {
             var data = await _usuarioRepository.ActualizarUsuario(usuario,id);
             
-            if (!data)
+            if (data.existe==1)
             {
                 var objeto = new
                 {
                     mensaje = "El usuario a editar no existe",
+                    estado = false
+                };
+                return new OkObjectResult(new JsonResult(objeto));
+            }
+            if (data.existe == 2)
+            {
+                var objeto = new
+                {
+                    mensaje = "Ya existe un usuario con esa información Username, correo, núero de documento",
                     estado = false
                 };
                 return new OkObjectResult(new JsonResult(objeto));

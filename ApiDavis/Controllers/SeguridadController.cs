@@ -9,11 +9,11 @@ namespace ApiDavis.Controllers
     [ApiController]
     [Route("api/Seguridad")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class Seguridad: ControllerBase
+    public class SeguridadController: ControllerBase
     {
         private readonly ISeguridadRepository seguridadRepository;
 
-        public Seguridad(ISeguridadRepository seguridadRepository)
+        public SeguridadController(ISeguridadRepository seguridadRepository)
         {
             this.seguridadRepository = seguridadRepository;
         }
@@ -26,6 +26,14 @@ namespace ApiDavis.Controllers
                 return BadRequest();
             }
             var jwtToken = await seguridadRepository.Autenticar(usuario);
+            if (jwtToken.noExiste)
+            {
+                var objeto = new
+                {
+                    mensaje = "Usuario no existe"
+                };
+                return new OkObjectResult(new JsonResult(objeto));
+            }
 
             if (!jwtToken.Estado)
             {
@@ -35,6 +43,7 @@ namespace ApiDavis.Controllers
                 };
                 return new OkObjectResult(new JsonResult(objeto));
             }
+            
             if(jwtToken.AuthToken == null)
             {
                 var objeto = new
