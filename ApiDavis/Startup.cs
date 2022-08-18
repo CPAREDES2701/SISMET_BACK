@@ -75,6 +75,7 @@ namespace ApiDavis
                 });
             });
             services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(UsuarioRepository));
 
             services.AddCors(opciones =>
             {

@@ -80,7 +80,7 @@ namespace ApiDavis.Controllers
             {
                 return BadRequest("Ya existe un usuario registrado");
             }
-            return Ok("Se registrò el usuario correctamente");
+            return Ok("Se registró el usuario correctamente");
         }
         [HttpDelete("{id:int}")]
         public async Task<ActionResult<ResponseDTO>> EliminarUsuario(int id)
