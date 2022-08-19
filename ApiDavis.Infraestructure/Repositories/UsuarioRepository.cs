@@ -167,8 +167,9 @@ namespace ApiDavis.Infraestructure.Repositories
         {
             var existeUsuario = await _context.Usuario
                 .Include(x => x.Empresa)
+                .ThenInclude(x=>x.Estacion)
                 .Include(x => x.Rol)
-                .FirstOrDefaultAsync(x => x.Id == id && x.Estado == true);
+                .FirstOrDefaultAsync();
 
             if(existeUsuario!= null)
             {
