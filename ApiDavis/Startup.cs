@@ -29,6 +29,7 @@ namespace ApiDavis
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
             services.AddTransient<ISeguridadRepository, SeguridadRepository>();
             services.AddTransient<IEmpresaRepository, EmpresaRepository>();
+            services.AddTransient<IDavisRepository, DavisRepository>();
             services.AddTransient<HashService>();
             
 
