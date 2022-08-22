@@ -26,33 +26,33 @@ namespace ApiDavis.Controllers
                 return BadRequest();
             }
             var jwtToken = await seguridadRepository.Autenticar(usuario);
-            if (jwtToken.noExiste)
-            {
-                var objeto = new
-                {
-                    mensaje = "Usuario no existe"
-                };
-                return new OkObjectResult(new JsonResult(objeto));
-            }
+            //if (jwtToken.noExiste)
+            //{
+            //    var objeto = new
+            //    {
+            //        mensaje = "Usuario no existe"
+            //    };
+            //    return new OkObjectResult(new JsonResult(objeto));
+            //}
 
-            if (!jwtToken.Estado)
-            {
-                var objeto = new
-                {
-                    mensaje = "Usuario Bloqueado"
-                };
-                return new OkObjectResult(new JsonResult(objeto));
-            }
+            //if (!jwtToken.Estado)
+            //{
+            //    var objeto = new
+            //    {
+            //        mensaje = "Usuario Bloqueado"
+            //    };
+            //    return new OkObjectResult(new JsonResult(objeto));
+            //}
             
-            if(jwtToken.AuthToken == null)
-            {
-                var objeto = new
-                {
-                    mensaje = "Datos Incorrectos"
-                };
-                return new OkObjectResult(new JsonResult(objeto));
+            //if(jwtToken.AuthToken == null)
+            //{
+            //    var objeto = new
+            //    {
+            //        mensaje = "Datos Incorrectos"
+            //    };
+            //    return new OkObjectResult(new JsonResult(objeto));
                 
-            }
+            //}
             return new OkObjectResult(new JsonResult(jwtToken));
         }
 

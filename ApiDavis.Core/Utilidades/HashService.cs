@@ -88,7 +88,7 @@ namespace ApiDavis.Core.Utilidades
             {
                 AuthToken = new JwtSecurityTokenHandler().WriteToken(securityToken),
                 ExpireIn = expiracion,
-                Estado=true
+                Message=""
 
             };
         }

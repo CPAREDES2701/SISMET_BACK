@@ -29,10 +29,9 @@ namespace ApiDavis.Infraestructure.Repositories
 
             if (!existe)
             {
-                return new JwtResponse()
+                return new JwtResponse
                 {
-                    noExiste = true
-
+                    Message = "El Uusario no Existe"
                 };
             }
 
@@ -55,17 +54,19 @@ namespace ApiDavis.Infraestructure.Repositories
                         usuarioUpdate.Intentos = usuarioUpdate.Intentos + 1;
                         _context.Update(usuarioUpdate);
                         await _context.SaveChangesAsync();
-                        return new JwtResponse()
+                        return new JwtResponse
                         {
-                            Estado = true
-
+                            Message = "Datos Incorrectos"
                         };
 
                     }
                 }
                 else
                 {
-                    return new JwtResponse { Estado = false };
+                   
+                    return new JwtResponse {
+                        Message="Usuario bloqueado"
+                    };
                 }
 
 
@@ -75,7 +76,7 @@ namespace ApiDavis.Infraestructure.Repositories
             
 
             if (resultado!=null)
-            {   if(resultado.Estado==false) return new JwtResponse { Estado = false };
+            {   if(resultado.Estado==false) return new JwtResponse { Message = "Usuario bloqueado" };
                 var usuarioToken = await _context.Usuario.Where(x => x.UserName == usuario.usuario).FirstOrDefaultAsync();
 
                 return await hashService.ConstruirToken(usuarioToken);
