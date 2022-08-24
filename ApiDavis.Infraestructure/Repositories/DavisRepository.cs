@@ -92,17 +92,17 @@ namespace ApiDavis.Infraestructure.Repositories
             }
             if (dto.idSegundaEstacion != 0)
             {
-                var dataSecond = await _context.DataDavis.Where(x => x.EstacionId == dto.idSegundaEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).ToListAsync();
-                if (dataSecond.Count > 0)
-                {
-                    List<DataDavisEntiti> SegundaEstacion = new List<DataDavisEntiti>();
-                    foreach (var davis in dataSecond)
-                    {
-                        SegundaEstacion.Add(davis);
-                    }
-                    obj.SecondEstacion = SegundaEstacion;
+                //var dataSecond = await _context.DataDavis.Where(x => x.EstacionId == dto.idSegundaEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).ToListAsync();
+                //if (dataSecond.Count > 0)
+                //{
+                //    List<DataDavisEntiti> SegundaEstacion = new List<DataDavisEntiti>();
+                //    foreach (var davis in dataSecond)
+                //    {
+                //        SegundaEstacion.Add(davis);
+                //    }
+                //    obj.SecondEstacion = SegundaEstacion;
 
-                }
+                //}
             }
             return obj;
         }
