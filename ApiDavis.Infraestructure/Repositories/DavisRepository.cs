@@ -1,6 +1,8 @@
 ﻿using ApiDavis.Core.DTOs;
+using ApiDavis.Core.Entities;
 using ApiDavis.Core.Exceptions;
 using ApiDavis.Core.Interfaces;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,10 +17,12 @@ namespace ApiDavis.Infraestructure.Repositories
     public class DavisRepository : IDavisRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper mapper;
 
-        public DavisRepository(ApplicationDbContext context)
+        public DavisRepository(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            this.mapper = mapper;
         }
         public async Task<RootDavisDTO> Get(int id)
         {
@@ -107,6 +111,15 @@ namespace ApiDavis.Infraestructure.Repositories
             return obj;
         }
 
+        public async Task<IEnumerable<EstacionResponseDTO>> GetEstaciones()
+        {
+
+            var estaciones = await _context.Estacion.ToListAsync();
+
+            var estacionResponse = mapper.Map<List<EstacionResponseDTO>>(estaciones);
+
+            return estacionResponse;
+        }
 
 
     }

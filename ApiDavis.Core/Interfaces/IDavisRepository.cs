@@ -1,4 +1,5 @@
 ﻿using ApiDavis.Core.DTOs;
+using ApiDavis.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace ApiDavis.Core.Interfaces
     {
         Task<RootDavisDTO> Get(int id);
         Task<ResponseDavisDto> GetEstacionByFecha(RequestDavisDto obj);
+        Task<IEnumerable<EstacionResponseDTO>> GetEstaciones();
     }
 }

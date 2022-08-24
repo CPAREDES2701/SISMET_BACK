@@ -40,7 +40,7 @@ namespace ApiDavis.Controllers
         //  "horaInicio": "12:15:05",
         //  "horaFin": "13:09:00"
         //}
-    [HttpPost]
+        [HttpPost]
         //public async Task<ActionResult> GetEstacionByFecha(int idPrimeraEstacion, int idSegundaEstacion, DateTime fecha)
         public async Task<ActionResult> GetEstacionByFecha([FromBody]RequestDavisDto dto)
         {
@@ -48,6 +48,17 @@ namespace ApiDavis.Controllers
             if (resultado == null)
             {
                 return NotFound("No existe estación a consultar");
+            }
+            return Ok(resultado);
+        }
+        [HttpGet("GetEstaciones")]
+        //public async Task<ActionResult> GetEstacionByFecha(int idPrimeraEstacion, int idSegundaEstacion, DateTime fecha)
+        public async Task<ActionResult> GetEstaciones()
+        {
+            var resultado = await _davisRepository.GetEstaciones();
+            if (resultado == null)
+            {
+                return NotFound("No existe estaciones a consultar");
             }
             return Ok(resultado);
         }
