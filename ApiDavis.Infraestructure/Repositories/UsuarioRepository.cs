@@ -165,7 +165,7 @@ namespace ApiDavis.Infraestructure.Repositories
        
         public async Task<Usuario> GetUsuarios(int id)
         {
-            var existeUsuario = await _context.Usuario
+            var existeUsuario = await _context.Usuario.Where(x => x.Id==id)
                 .Include(x => x.Empresa)
                 .ThenInclude(x=>x.Estacion)
                 .Include(x => x.Rol)

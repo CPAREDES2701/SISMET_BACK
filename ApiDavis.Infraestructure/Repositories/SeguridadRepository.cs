@@ -31,7 +31,7 @@ namespace ApiDavis.Infraestructure.Repositories
             {
                 return new JwtResponse
                 {
-                    Message = "El Uusario no Existe"
+                    Message = "El Usuario no Existe"
                 };
             }
 

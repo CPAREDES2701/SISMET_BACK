@@ -1,4 +1,5 @@
-﻿using ApiDavis.Core.Entities;
+﻿using ApiDavis.Core.DTOs;
+using ApiDavis.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,6 @@ namespace ApiDavis.Infraestructure.Repositories
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Empresa> Empresa { get; set; }
         public DbSet<Estacion> Estacion { get; set; }
+        public DbSet<DataDavisEntiti> DataDavis { get; set; }
     }
 }

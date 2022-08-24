@@ -1,10 +1,13 @@
 ﻿using ApiDavis.Core.Interfaces;
 using ApiDavis.Core.Utilidades;
 using ApiDavis.Infraestructure.Repositories;
+using Hangfire;
+using Hangfire.MySql.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Text.Json.Serialization;
@@ -23,15 +26,17 @@ namespace ApiDavis
         {
             services.AddControllers().AddJsonOptions(x =>
             x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles).AddNewtonsoftJson();
-
+            services.AddHostedService<HostedRepository>();
+            
             //Dependencies
             services.AddTransient<IRolRepository, RolRepository>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
             services.AddTransient<ISeguridadRepository, SeguridadRepository>();
             services.AddTransient<IEmpresaRepository, EmpresaRepository>();
             services.AddTransient<IDavisRepository, DavisRepository>();
-            services.AddTransient<HashService>();
             
+
+            services.AddTransient<HashService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -102,7 +107,7 @@ namespace ApiDavis
             app.UseRouting();
             app.UseCors();
             app.UseAuthorization();
-
+            
             app.UseEndpoints(options =>
             {
                 options.MapControllers();

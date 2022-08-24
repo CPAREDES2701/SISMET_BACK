@@ -10,5 +10,6 @@ namespace ApiDavis.Core.Interfaces
     public interface IDavisRepository
     {
         Task<RootDavisDTO> Get(int id);
+        Task<ResponseDavisDto> GetEstacionByFecha(RequestDavisDto obj);
     }
 }

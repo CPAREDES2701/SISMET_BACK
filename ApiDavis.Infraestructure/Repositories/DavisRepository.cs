@@ -1,8 +1,10 @@
 ﻿using ApiDavis.Core.DTOs;
+using ApiDavis.Core.Exceptions;
 using ApiDavis.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -45,5 +47,67 @@ namespace ApiDavis.Infraestructure.Repositories
             
             return root;
         }
+        //public async Task<ResponseDavisDto> GetEstacionByFecha(int idPrimeraEstacion, int idSegundaEstacion, DateTime fecha)
+        public async Task<ResponseDavisDto> GetEstacionByFecha(RequestDavisDto dto)
+        {
+            ResponseDavisDto obj = new ResponseDavisDto();
+            var existe =await _context.Estacion.AnyAsync(x => x.Id == dto.idPrimeraEstacion);
+            var existeSecond = await _context.Estacion.AnyAsync(x => x.Id == dto.idSegundaEstacion);
+
+            if (!existe && !existeSecond)
+            {
+                obj.message = $"No existe ninguna estación seleccionada";
+                return obj;
+            }
+            if (!existe)
+            {
+                obj.message = $"No se encontró la estación {dto.idPrimeraEstacion} seleccionada";
+                return obj;
+            }
+            if (!existeSecond)
+            {
+                obj.message = $"No se encontró la estación {dto.idSegundaEstacion} seleccionada";
+                return obj;
+            }
+            
+            string fechaInicio = dto.fechaInicio + " " + dto.horaInicio;
+            string fechaFin = dto.fechaFin + " " + dto.horaFin;
+
+            List<ResponseRootDavisDTO> lista = new List<ResponseRootDavisDTO>();
+
+            
+            if (dto.idPrimeraEstacion != 0)
+            {
+                var dataFirst = await _context.DataDavis.Where(x => x.EstacionId == dto.idPrimeraEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).ToListAsync();
+                if (dataFirst.Count > 0)
+                {
+                    List<DataDavisEntiti> PrimeraEstacion = new List<DataDavisEntiti>();
+                    foreach (var davis in dataFirst)
+                    {
+                        PrimeraEstacion.Add(davis);
+                    }
+                    obj.Estacion = PrimeraEstacion;
+
+                }
+            }
+            if (dto.idSegundaEstacion != 0)
+            {
+                var dataSecond = await _context.DataDavis.Where(x => x.EstacionId == dto.idSegundaEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).ToListAsync();
+                if (dataSecond.Count > 0)
+                {
+                    List<DataDavisEntiti> SegundaEstacion = new List<DataDavisEntiti>();
+                    foreach (var davis in dataSecond)
+                    {
+                        SegundaEstacion.Add(davis);
+                    }
+                    obj.SecondEstacion = SegundaEstacion;
+
+                }
+            }
+            return obj;
+        }
+
+
+
     }
 }
