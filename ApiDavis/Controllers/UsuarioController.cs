@@ -88,5 +88,13 @@ namespace ApiDavis.Controllers
             var resultado = await _usuarioRepository.EliminarUsuario(id);
             return Ok(resultado);
         }
+
+        [HttpPost("CambiarContraseña")]
+        public async Task<ActionResult> CambiarContraseña(string dato)
+        {
+            var resultado = await _usuarioRepository.CambiarContraseña(dato);
+
+            return Ok(resultado);
+        }
     }
 }

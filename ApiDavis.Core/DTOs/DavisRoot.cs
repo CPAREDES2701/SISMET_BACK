@@ -17,6 +17,7 @@ namespace ApiDavis.Core.DTOs
         public string wind_degrees { get; set; }
         public string wind_dir { get; set; }
         public string wind_kt { get; set; }
+        public string observation_time { get; set; }
         public DataDavis davis_current_observation { get; set; }
     }
 }

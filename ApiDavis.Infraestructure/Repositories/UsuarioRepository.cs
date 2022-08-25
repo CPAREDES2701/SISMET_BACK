@@ -106,6 +106,45 @@ namespace ApiDavis.Infraestructure.Repositories
             return existeUsuario;
         }
 
+        public async Task<ResponseDTO> CambiarContraseña(string correo)
+        {
+            Constantes consta = new Constantes();
+            var existe =await _context.Usuario.AnyAsync(u => u.correo==correo || u.UserName ==correo);
+            ResponseDTO response = new ResponseDTO();
+
+            if (!existe)
+            {
+                response.valid = false;
+                response.message = "No existe el usuario";
+                response.TypeError = "Warning";
+                return response;
+            }
+            var usuarioDomain = await _context.Usuario.FirstOrDefaultAsync(x => x.correo == correo || x.UserName == correo);
+            var contraseña = hashService.Desencriptar(usuarioDomain.Contrasena);
+            RecuperarClaveEmail message = new RecuperarClaveEmail();
+
+            message.CorreoCliente = usuarioDomain.correo;
+            message.NombreCliente = usuarioDomain.Nombres + " " + usuarioDomain.Apellidos;
+            message.Contrasena = contraseña;
+            List<string> correos = new List<string>();
+            correos.Add(message.CorreoCliente);
+
+            var obj = new EmailData<RecuperarClaveEmail>
+            {
+                EmailType = 2,
+                EmailList = correos,
+                Model = message,
+                HtmlTemplateName = Constantes.RecuperarContraseña
+            };
+
+            await hashService.EnviarCorreoAsync(obj,message);
+
+            response.valid = true;
+            response.message = $"Se ha enviado la contraseña satisfactoriamente";
+            response.TypeError = "Success";
+            return response;
+        }
+        
         public async Task<ResponseDTO> EliminarUsuario(int id)
         {
             var existe = await _context.Usuario.AnyAsync(p => p.Id == id);

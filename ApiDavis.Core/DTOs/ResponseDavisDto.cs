@@ -11,6 +11,9 @@ namespace ApiDavis.Core.DTOs
     {
         public List<DataDavisEntiti> Estacion { get; set; }
         public List<DataDavisEntiti> SecondEstacion { get; set; }
+
+        public string promedioTempEstacion { get; set; }
+        public string promedioTempSegundaEstacion { get; set; }
         public string message { get; set; }
     }
 }

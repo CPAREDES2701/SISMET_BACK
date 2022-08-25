@@ -79,7 +79,8 @@ namespace ApiDavis.Infraestructure.Repositories
 
             List<ResponseRootDavisDTO> lista = new List<ResponseRootDavisDTO>();
 
-            
+            decimal promedio = 0;
+            decimal promedioSecond = 0;
             if (dto.idPrimeraEstacion != 0)
             {
                 var dataFirst = await _context.DataDavis.Where(x => x.EstacionId == dto.idPrimeraEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).ToListAsync();
@@ -88,25 +89,29 @@ namespace ApiDavis.Infraestructure.Repositories
                     List<DataDavisEntiti> PrimeraEstacion = new List<DataDavisEntiti>();
                     foreach (var davis in dataFirst)
                     {
+                        promedio += Convert.ToDecimal(davis.temp_c);
                         PrimeraEstacion.Add(davis);
                     }
+                    obj.promedioTempEstacion = Convert.ToString(Math.Round(promedio / dataFirst.Count(),4));
                     obj.Estacion = PrimeraEstacion;
 
                 }
             }
             if (dto.idSegundaEstacion != 0)
             {
-                //var dataSecond = await _context.DataDavis.Where(x => x.EstacionId == dto.idSegundaEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).ToListAsync();
-                //if (dataSecond.Count > 0)
-                //{
-                //    List<DataDavisEntiti> SegundaEstacion = new List<DataDavisEntiti>();
-                //    foreach (var davis in dataSecond)
-                //    {
-                //        SegundaEstacion.Add(davis);
-                //    }
-                //    obj.SecondEstacion = SegundaEstacion;
+                var dataSecond = await _context.DataDavis.Where(x => x.EstacionId == dto.idSegundaEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).ToListAsync();
+                if (dataSecond.Count > 0)
+                {
+                    List<DataDavisEntiti> SegundaEstacion = new List<DataDavisEntiti>();
+                    foreach (var davis in dataSecond)
+                    {
+                        promedioSecond += Convert.ToDecimal(davis.temp_c);
+                        SegundaEstacion.Add(davis);
+                    }
+                    obj.promedioTempSegundaEstacion = Convert.ToString(Math.Round(promedioSecond / dataSecond.Count(),4));
+                    obj.SecondEstacion = SegundaEstacion;
 
-                //}
+                }
             }
             return obj;
         }
