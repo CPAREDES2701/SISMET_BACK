@@ -103,7 +103,6 @@ namespace ApiDavis.Core.Utilidades
             SmtpServer.Credentials = new System.Net.NetworkCredential(correoSend, clave);
             SmtpServer.EnableSsl = true;
             SmtpServer.Send(mail);
-
         }
 
         public async Task<JwtResponse> ConstruirToken(Usuario credencialesUsuario)
@@ -112,7 +111,8 @@ namespace ApiDavis.Core.Utilidades
             {
                 new Claim("Id", credencialesUsuario.Id.ToString()),
                 new Claim("userName", credencialesUsuario.UserName),
-                new Claim("email",credencialesUsuario.correo)
+                new Claim("email",credencialesUsuario.correo),
+                new Claim("rol",credencialesUsuario.RolId.ToString())
             };
          
             var llave = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("ASK9DASDASJD9ASJD9ASJDA9SJDAS9JDAS9JDA9SJD9ASJDAS9JDAS9DJAS9JDAS9DJAS9DJAS9DJAS9DAJS"));

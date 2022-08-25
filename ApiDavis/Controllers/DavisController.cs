@@ -2,6 +2,12 @@
 using ApiDavis.Core.Interfaces;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using OfficeOpenXml.Table;
+using RazorEngine;
+using System.Drawing;
+using System.Text;
 
 namespace ApiDavis.Controllers
 {
@@ -50,6 +56,21 @@ namespace ApiDavis.Controllers
                 return NotFound("No existe estación a consultar");
             }
             return Ok(resultado);
+        }
+        [HttpPost("ExportarData")]
+        //public async Task<ActionResult> GetEstacionByFecha(int idPrimeraEstacion, int idSegundaEstacion, DateTime fecha)
+        public async Task<ActionResult> ExportarData([FromBody] RequestDavisDto dto)
+        {
+            var resultado = await _davisRepository.GetEstacionByFecha(dto);
+
+            var builder = new StringBuilder();
+            builder.AppendLine("ID,Username");
+            foreach (var item in resultado.Estacion)
+            {
+                builder.AppendLine($"{item.et_day},{item.temp_c}");
+            }
+            return File(System.Text.Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", "users.csv");
+
         }
         [HttpGet("GetEstaciones")]
         //public async Task<ActionResult> GetEstacionByFecha(int idPrimeraEstacion, int idSegundaEstacion, DateTime fecha)

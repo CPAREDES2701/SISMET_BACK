@@ -24,6 +24,9 @@ namespace ApiDavis.Infraestructure.Repositories
             _context = context;
             this.mapper = mapper;
         }
+
+        
+
         public async Task<RootDavisDTO> Get(int id)
         {
 
