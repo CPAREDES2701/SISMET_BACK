@@ -122,5 +122,17 @@ namespace ApiDavis.Controllers
             return Ok(resultado);
         }
 
+        [HttpPost("CrearEstacion")]
+        //public async Task<ActionResult> GetEstacionByFecha(int idPrimeraEstacion, int idSegundaEstacion, DateTime fecha)
+        public async Task<ActionResult> CrearEstacion([FromBody] EstacionRequestDTO estacion)
+        {
+            var resultado = await _davisRepository.CrearEstacion(estacion);
+            if (resultado)
+            {
+                return BadRequest("Ya existe una estación registrada");
+            }
+            return Ok("Se registró la estación correctamente");
+        }
+
     }
 }

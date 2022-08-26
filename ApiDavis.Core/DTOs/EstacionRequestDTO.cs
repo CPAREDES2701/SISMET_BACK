@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ApiDavis.Core.Entities
+namespace ApiDavis.Core.DTOs
 {
-    public class Estacion
+    public class EstacionRequestDTO
     {
-        public int Id { get; set; }
         public string NombreEstacion { get; set; }
         public string Latitud { get; set; }
         public string Longitud { get; set; }
