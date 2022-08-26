@@ -130,4 +130,7 @@ C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\ru\Microsoft.CodeAnalysis.
 C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\tr\Microsoft.CodeAnalysis.CSharp.resources.dll
 C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll
 C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll
-C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\EPPlus.dll
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\ClosedXML.dll
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\DocumentFormat.OpenXml.dll
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\ExcelNumberFormat.dll
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\System.IO.Packaging.dll

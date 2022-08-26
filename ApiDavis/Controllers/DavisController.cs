@@ -1,10 +1,9 @@
 ﻿using ApiDavis.Core.DTOs;
 using ApiDavis.Core.Interfaces;
+using ClosedXML.Excel;
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using OfficeOpenXml.Table;
+
 using RazorEngine;
 using System.Drawing;
 using System.Text;
@@ -63,13 +62,52 @@ namespace ApiDavis.Controllers
         {
             var resultado = await _davisRepository.GetEstacionByFecha(dto);
 
-            var builder = new StringBuilder();
-            builder.AppendLine("ID,Username");
-            foreach (var item in resultado.Estacion)
-            {
-                builder.AppendLine($"{item.et_day},{item.temp_c}");
-            }
-            return File(System.Text.Encoding.UTF8.GetBytes(builder.ToString()), "text/csv", "users.csv");
+            
+                using (var workbook = new XLWorkbook())
+                {
+                    var worksheet = workbook.Worksheets.Add("Información");
+                    var currentRow = 1;
+                    worksheet.Cell(currentRow, 1).Value = "Id";
+                    worksheet.Cell(currentRow, 2).Value = "Data";
+                    if (resultado.Estacion != null)
+                    {
+                    foreach (var item in resultado.Estacion)
+                    {
+                        currentRow++;
+                        worksheet.Cell(currentRow, 1).Value = item.temp_day_high_time;
+                        worksheet.Cell(currentRow, 2).Value = item.temp_day_high_f;
+                    }
+                    var worksheet2 = workbook.Worksheets.Add("Información2");
+                    var currentRow2 = 1;
+                    worksheet2.Cell(currentRow2, 1).Value = "Id";
+                    worksheet2.Cell(currentRow2, 2).Value = "Data";
+                    foreach (var item in resultado.Estacion)
+                    {
+                        currentRow2++;
+                        worksheet2.Cell(currentRow2, 1).Value = item.temp_day_high_time;
+                        worksheet2.Cell(currentRow2, 2).Value = item.temp_day_high_f;
+                    }
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "users.xlsx");
+                    }
+                }
+                else
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        workbook.SaveAs(stream);
+                        var content = stream.ToArray();
+                        return File(content, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "users.xlsx");
+                    }
+                }
+                    
+
+                }
+            
+            
 
         }
         [HttpGet("GetEstaciones")]
