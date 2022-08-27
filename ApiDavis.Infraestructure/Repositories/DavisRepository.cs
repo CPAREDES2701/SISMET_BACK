@@ -142,7 +142,7 @@ namespace ApiDavis.Infraestructure.Repositories
         
             _context.Add(estaciones);
             await _context.SaveChangesAsync();
-            return true;
+            return existeEstacion;
         }
 
 

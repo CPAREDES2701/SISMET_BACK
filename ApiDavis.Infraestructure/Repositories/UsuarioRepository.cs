@@ -151,23 +151,32 @@ namespace ApiDavis.Infraestructure.Repositories
             ResponseDTO response = new ResponseDTO();
             if (!existe)
             {
-                
                 response.valid = false;
                 response.message = "No existe el usuario ha eliminar";
                 response.TypeError = "Warning";
                 return response;
             }
             
-            var usuarioDomain = await _context.Usuario.FirstOrDefaultAsync(x => x.Id == id && x.Estado == true);
+            var usuarioDomain = await _context.Usuario.FirstOrDefaultAsync(x => x.Id == id);
         
             if (usuarioDomain != null) {
-                usuarioDomain.Estado = false;
+                if (usuarioDomain.Estado == true)
+                {
+                    usuarioDomain.Estado = false;
+                    response.message = "Se ha eliminado el usuario satisfactoriamente";
+                }
+                else
+                {
+                    usuarioDomain.Estado = true;
+                    response.message = "Se ha habilitado el usuario satisfactoriamente";
+                }
+                
                 var validateResult =  _context.Update(usuarioDomain);
                 if (validateResult != null)
                 {
                     await _context.SaveChangesAsync();
                     response.valid = true;
-                    response.message = "Se ha eliminado el usuario satisfactoriamente";
+                    
                     response.TypeError = "Success";
                 }
 
