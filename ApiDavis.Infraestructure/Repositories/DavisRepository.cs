@@ -128,6 +128,22 @@ namespace ApiDavis.Infraestructure.Repositories
 
             return estacionResponse;
         }
+        public async Task<bool> CrearEstacion(EstacionRequestDTO estacion)
+        {
+            var existeEstacion = await _context.Estacion.AnyAsync(p => p.Usuario == estacion.Usuario || p.Clave == estacion.Clave || p.Token == estacion.Token);
+           
+            if (existeEstacion)
+            {
+                return existeEstacion;
+            }
+            
+
+            var estaciones = mapper.Map<Estacion>(estacion);
+        
+            _context.Add(estaciones);
+            await _context.SaveChangesAsync();
+            return existeEstacion;
+        }
 
 
     }
