@@ -10,6 +10,7 @@ namespace ApiDavis.Core.DTOs
     {
         public int Id { get; set; }
         public DateTime fecha { get; set; }
+        public string TheDate => fecha.Date.ToShortDateString();
         public string dewpoint_c { get; set; }
         //presion barometrica
         public string pressure_mb { get; set; }

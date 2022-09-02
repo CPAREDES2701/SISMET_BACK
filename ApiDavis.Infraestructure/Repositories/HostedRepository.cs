@@ -1,5 +1,7 @@
 ﻿using ApiDavis.Core.DTOs;
 using ApiDavis.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MySqlConnector;
 using System;
@@ -15,10 +17,17 @@ namespace ApiDavis.Infraestructure.Repositories
     public class HostedRepository : IHostedService, IDisposable
     {
         Timer _timer;
+        private readonly ApplicationDbContext _context;
+
+        public HostedRepository(IServiceScopeFactory factory)
+        {
+            _context = factory.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        }
         public Task StartAsync(CancellationToken cancellationToken)
         {
             
-            _timer = new Timer(GuardarData, null , TimeSpan.Zero,TimeSpan.FromMinutes(1));
+            //_timer = new Timer(GuardarData, null , TimeSpan.Zero,TimeSpan.FromMinutes(1));
+            _timer = new Timer(data, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
 
             return Task.CompletedTask;
         }
@@ -30,28 +39,21 @@ namespace ApiDavis.Infraestructure.Repositories
 
             //if (fecha.EndsWith("15") || fecha.EndsWith("00") || fecha.EndsWith("30") || fecha.EndsWith("45"))
             //{
-
-                List<ClientInfo> lista = new List<ClientInfo>()
+            var data =await _context.Estacion.ToListAsync();
+            List<ClientInfo> lista = new List<ClientInfo>();
+            foreach (var item in data)
             {
-			    #region
-			    new ClientInfo { usuario ="001D0A005187",clave="prolansac",token="47171655DAE64F9BB55E2CEBD2BB1C9D",zona=1},
-                new ClientInfo { usuario ="001D0A00667E",clave="chiquerillo1",token="92DAC1EED3A04C3EBB05538C611508B6",zona=2},
-                new ClientInfo { usuario ="001D0A00AD35",clave="12345678",token="86575624BB414E309475F1EB4D8521DE",zona=3},
-                new ClientInfo { usuario ="001D0AE0861B",clave="Uchusquillo96",token="08BE9F1CE7CB41E9ADFE860C5C30C4E3",zona=4},
-                new ClientInfo { usuario ="001D0A00981C",clave="natucultura2015",token="0E48FCA22D13422580EFF582D9CC655B",zona=5},
-                new ClientInfo { usuario ="001D0A010E51",clave="natucultura2020",token="E9C4A274B8CE46C1A22C77DFEBC41F9C",zona=6},
-                new ClientInfo { usuario ="001D0A0122AC",clave="natu1234$",token="4E90583454BB484AB910F63CEE59D8D7",zona=7},
-                new ClientInfo { usuario ="001D0A0121A8",clave="natu1234$",token="4E90583454BB484AB910F63CEE59D8D7",zona=8},
-                new ClientInfo { usuario ="001D0AE099B1",clave="Avoamerica2021...",token="BA723329BC6A4058B5B5CC781286FBC0",zona=9},
-                new ClientInfo { usuario ="001D0AE0A32A",clave="pirona2022",token="9CF8849F930D4C3FBBDE0ACD357F1B31",zona=10},
-                new ClientInfo { usuario ="001D0A01219D",clave="Bateas2020$$",token="C798ADC96C104586993C631ADF403EF9",zona=11},
-                new ClientInfo { usuario ="001D0AE0A36E",clave="usuario12345",token="A31E5413C523479D8D2275A7241AB230",zona=12}
-			    #endregion
-		    };
+                ClientInfo client = new ClientInfo();
+                client.clave = item.Clave;
+                client.usuario = item.Usuario;
+                client.token = item.Token;
+                client.zona = item.EmpresaId;
+                lista.Add(client);
+            }
                 Stopwatch stopwatch = new Stopwatch();
                 int contador = 0;
                 stopwatch.Start();
-                var opcionesParalelismo = new ParallelOptions { MaxDegreeOfParallelism = 10 };
+                var opcionesParalelismo = new ParallelOptions { MaxDegreeOfParallelism = 5 };
                 await Parallel.ForEachAsync(lista, opcionesParalelismo, async (listas, _) =>
                 {
                     await TraerData(listas, fecha2);
@@ -59,10 +61,18 @@ namespace ApiDavis.Infraestructure.Repositories
                 });
                 Console.WriteLine($"Tiempo Final:{stopwatch.Elapsed.Seconds.ToString()}");
                 Console.WriteLine($"peticiones Final:{contador}");
-            //}
+        }
+        public async void data(object obj)
+        {
+            await Informar();
+        }
+        public async Task Informar()
+        {
+            var datas = DateTime.Now.ToString("yyyy/MM-dd");
+            var data = await _context.DataDavis.Where(x => x.EstacionId == 9 && x.fecha.ToString().Contains("2022-08-23")).ToListAsync();
+            
 
-
-
+            Console.WriteLine(data);
         }
         public async Task TraerData(ClientInfo objeto, string fecha)
         {
