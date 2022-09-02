@@ -88,15 +88,17 @@ namespace ApiDavis.Infraestructure.Repositories
             string connStr = "server=localhost; port=3306; database=davisbdprd; user=root; password=123456; Persist Security Info=False;";
             MySqlConnection conn = new MySqlConnection(connStr);
             HttpClient client = new HttpClient();
-            HttpResponseMessage response = await client.GetAsync($"https://api.weatherlink.com/v1/NoaaExt.json?user={objeto.usuario}&pass={objeto.clave}&apiToken={objeto.token}");
-            response.EnsureSuccessStatusCode();
-           
-            string responseBody = await response.Content.ReadAsStringAsync();
          
-            DavisRoot root = JsonSerializer.Deserialize<DavisRoot>(responseBody);
-            Console.WriteLine(root.dewpoint_c+"___"+root.location+"___"+objeto.zona);
+          
             try
             {
+                HttpResponseMessage response = await client.GetAsync($"https://api.weatherlink.com/v1/NoaaExt.json?user={objeto.usuario}&pass={objeto.clave}&apiToken={objeto.token}");
+                response.EnsureSuccessStatusCode();
+
+                string responseBody = await response.Content.ReadAsStringAsync();
+
+                DavisRoot root = JsonSerializer.Deserialize<DavisRoot>(responseBody);
+                Console.WriteLine(root.dewpoint_c + "___" + root.location + "___" + objeto.zona);
                 conn.Open();
                 double temp_high = Convert.ToDouble(root.davis_current_observation.temp_day_high_f);
                 temp_high = (temp_high - 32)*5/9;
