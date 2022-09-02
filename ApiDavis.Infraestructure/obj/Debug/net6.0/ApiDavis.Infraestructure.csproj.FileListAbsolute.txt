@@ -13,3 +13,18 @@ C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.I
 C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\obj\Debug\net6.0\refint\ApiDavis.Infraestructure.dll
 C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.pdb
 C:\APIDAVISBACKEND\ApiDavis\ApiDavis.Infraestructure\obj\Debug\net6.0\ref\ApiDavis.Infraestructure.dll
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\bin\Debug\net6.0\ApiDavis.Infraestructure.deps.json
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\bin\Debug\net6.0\ApiDavis.Infraestructure.dll
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\bin\Debug\net6.0\ApiDavis.Infraestructure.pdb
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\bin\Debug\net6.0\ApiDavis.Core.dll
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\bin\Debug\net6.0\ApiDavis.Core.pdb
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.csproj.AssemblyReference.cache
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.GeneratedMSBuildEditorConfig.editorconfig
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.AssemblyInfoInputs.cache
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.AssemblyInfo.cs
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.csproj.CoreCompileInputs.cache
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.csproj.CopyComplete
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.dll
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\obj\Debug\net6.0\refint\ApiDavis.Infraestructure.dll
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\obj\Debug\net6.0\ApiDavis.Infraestructure.pdb
+G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis.Infraestructure\obj\Debug\net6.0\ref\ApiDavis.Infraestructure.dll
