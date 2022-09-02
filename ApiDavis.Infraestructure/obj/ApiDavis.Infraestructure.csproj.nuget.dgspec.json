@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "G:\\Xternal\\Davis - Proyecto\\Backend\\SISMET_BACK\\ApiDavis.Infraestructure\\ApiDavis.Infraestructure.csproj": {}
+    "C:\\APIDAVISBACKEND\\ApiDavis\\ApiDavis.Infraestructure\\ApiDavis.Infraestructure.csproj": {}
   },
   "projects": {
-    "G:\\Xternal\\Davis - Proyecto\\Backend\\SISMET_BACK\\ApiDavis.Core\\ApiDavis.Core.csproj": {
+    "C:\\APIDAVISBACKEND\\ApiDavis\\ApiDavis.Core\\ApiDavis.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Xternal\\Davis - Proyecto\\Backend\\SISMET_BACK\\ApiDavis.Core\\ApiDavis.Core.csproj",
+        "projectUniqueName": "C:\\APIDAVISBACKEND\\ApiDavis\\ApiDavis.Core\\ApiDavis.Core.csproj",
         "projectName": "ApiDavis.Core",
-        "projectPath": "G:\\Xternal\\Davis - Proyecto\\Backend\\SISMET_BACK\\ApiDavis.Core\\ApiDavis.Core.csproj",
-        "packagesPath": "C:\\Users\\EABANTO\\.nuget\\packages\\",
-        "outputPath": "G:\\Xternal\\Davis - Proyecto\\Backend\\SISMET_BACK\\ApiDavis.Core\\obj\\",
+        "projectPath": "C:\\APIDAVISBACKEND\\ApiDavis\\ApiDavis.Core\\ApiDavis.Core.csproj",
+        "packagesPath": "C:\\Users\\cpare\\.nuget\\packages\\",
+        "outputPath": "C:\\APIDAVISBACKEND\\ApiDavis\\ApiDavis.Core\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\EABANTO\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\cpare\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -87,8 +83,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -97,25 +92,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "G:\\Xternal\\Davis - Proyecto\\Backend\\SISMET_BACK\\ApiDavis.Infraestructure\\ApiDavis.Infraestructure.csproj": {
+    "C:\\APIDAVISBACKEND\\ApiDavis\\ApiDavis.Infraestructure\\ApiDavis.Infraestructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Xternal\\Davis - Proyecto\\Backend\\SISMET_BACK\\ApiDavis.Infraestructure\\ApiDavis.Infraestructure.csproj",
+        "projectUniqueName": "C:\\APIDAVISBACKEND\\ApiDavis\\ApiDavis.Infraestructure\\ApiDavis.Infraestructure.csproj",
         "projectName": "ApiDavis.Infraestructure",
-        "projectPath": "G:\\Xternal\\Davis - Proyecto\\Backend\\SISMET_BACK\\ApiDavis.Infraestructure\\ApiDavis.Infraestructure.csproj",
-        "packagesPath": "C:\\Users\\EABANTO\\.nuget\\packages\\",
-        "outputPath": "G:\\Xternal\\Davis - Proyecto\\Backend\\SISMET_BACK\\ApiDavis.Infraestructure\\obj\\",
+        "projectPath": "C:\\APIDAVISBACKEND\\ApiDavis\\ApiDavis.Infraestructure\\ApiDavis.Infraestructure.csproj",
+        "packagesPath": "C:\\Users\\cpare\\.nuget\\packages\\",
+        "outputPath": "C:\\APIDAVISBACKEND\\ApiDavis\\ApiDavis.Infraestructure\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\EABANTO\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\cpare\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -129,8 +120,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "G:\\Xternal\\Davis - Proyecto\\Backend\\SISMET_BACK\\ApiDavis.Core\\ApiDavis.Core.csproj": {
-                "projectPath": "G:\\Xternal\\Davis - Proyecto\\Backend\\SISMET_BACK\\ApiDavis.Core\\ApiDavis.Core.csproj"
+              "C:\\APIDAVISBACKEND\\ApiDavis\\ApiDavis.Core\\ApiDavis.Core.csproj": {
+                "projectPath": "C:\\APIDAVISBACKEND\\ApiDavis\\ApiDavis.Core\\ApiDavis.Core.csproj"
               }
             }
           }
@@ -176,8 +167,7 @@
             "net47",
             "net471",
             "net472",
-            "net48",
-            "net481"
+            "net48"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -186,7 +176,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

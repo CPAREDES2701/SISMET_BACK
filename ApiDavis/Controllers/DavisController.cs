@@ -221,7 +221,7 @@ namespace ApiDavis.Controllers
         [HttpGet("{idEstacion:int}/{fechaInicio}/{fechaFin}")]
         public async Task<ActionResult<ResponseCalculoDTO>> GetHorasFrio(int idEstacion,string fechaInicio, string fechaFin)
         {
-            ResponseCalculoDTO obj = new ResponseCalculoDTO();
+   
             var resultado = await _davisRepository.GetHorasFrio(idEstacion, fechaInicio,fechaFin);
           
             return Ok(resultado);
@@ -229,11 +229,10 @@ namespace ApiDavis.Controllers
         [HttpGet("RadiacionSolar/{idEstacion:int}/{fechaInicio}/{fechaFin}")]
         public async Task<ActionResult<ResponseCalculoDTO>> GetRadiacionSolar(int idEstacion, string fechaInicio, string fechaFin)
         {
-            ResponseCalculoDTO obj = new ResponseCalculoDTO();
+         
             var resultado = await _davisRepository.GetRadiacionSolar(idEstacion, fechaInicio, fechaFin);
-            obj.valor = resultado;
-            obj.valid = true;
-            return Ok(obj);
+            
+            return Ok(resultado);
         }
     }
 }

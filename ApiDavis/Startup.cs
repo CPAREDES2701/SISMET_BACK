@@ -37,7 +37,7 @@ namespace ApiDavis
             
 
             services.AddTransient<HashService>();
-
+                
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 var connectionString = Configuration.GetConnectionString("defaultConnection");

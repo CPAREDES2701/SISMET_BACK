@@ -26,25 +26,97 @@ namespace ApiDavis.Infraestructure.Repositories
         }
 
 
-        public async Task<string> GetRadiacionSolar(int idEstacion, string fechaInicio, string fechaFin)
+        public async Task<ResponseCalculoDTO> GetRadiacionSolar(int idEstacion, string fechaInicio, string fechaFin)
         {
+            ResponseCalculoDTO responseCalculo = new ResponseCalculoDTO();
+            var fechaI = Convert.ToDateTime(fechaInicio);
+            var fechaF = Convert.ToDateTime(fechaFin);
+            fechaF = fechaF.AddDays(1).AddSeconds(-1);
             var data = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).ToListAsync();
-            int acumula = 0;
-            foreach (var item in data)
+
+            var dates = new List<DateTime>();
+            var arregloDates = new List<string>();
+            for (var dt = fechaI; dt <= fechaF; dt = dt.AddDays(1))
             {
-                acumula = Convert.ToDouble(item.solar_radiation) >0 ? acumula + 1 : acumula;
+                dates.Add(dt);
+                arregloDates.Add(dt.Date.ToShortDateString());
             }
-            if (acumula > 0)
+
+            var dataAgrupada = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && (x.fecha >= fechaI && x.fecha <= fechaF)).ToListAsync();
+            if (dataAgrupada.Count() > 0)
             {
+                var sorted = dataAgrupada.OrderByDescending(da => da.fecha).ToArray();
+
+                var objecto = sorted.Where(x => Convert.ToDouble(x.solar_radiation) >0).GroupBy(x => x.fecha.Date).Select(g => g.ToList()).ToList();
+
+                var histograma = new List<HistogramTable>();
+
+                var fechas = objecto.ElementAt(0).ElementAt(0).fecha;
+                for (int i = 0; i < objecto.Count(); i++)
+                {
+                    for (int j = 0; j < 1; j++)
+                    {
+                        HistogramTable objeto = new HistogramTable();
+                        objeto.fecha = objecto.ElementAt(i).ElementAt(j).TheDate.ToString();
+                        objeto.horas = ((float)objecto.ElementAt(i).Count()) / (float)4;
+                        histograma.Add(objeto);
+                    }
+                }
+                for (int i = 0; i < arregloDates.Count(); i++)
+                {
+                    string fecha = arregloDates.ElementAt(i);
+
+                    if (!histograma.Any(k => k.fecha == fecha))
+                    {
+                        HistogramTable objeto = new HistogramTable();
+                        objeto.fecha = fecha;
+                        objeto.horas = 0;
+                        histograma.Add(objeto);
+                    }
+                }
+                int acumula = 0;
+                foreach (var item in data)
+                {
+                    acumula = Convert.ToDouble(item.solar_radiation) > 0 ? acumula + 1 : acumula;
+                }
+
                 float tiempo = (float)acumula / (float)4;
                 int valor = Convert.ToInt32(Math.Floor(tiempo));
-                string minutes = (tiempo - valor) == 0.75 ? "45" : (tiempo - valor) == 0.50 ? "30" : "15";
-                return valor.ToString() + " horas y " + minutes + " minutos";
+                string minutes = (tiempo - valor) == 0.75 ? "45" : (tiempo - valor) == 0.50 ? "30" :(tiempo-valor)==0.25? "15":"0";
+                var histoFinal = histograma.OrderBy(da => da.fecha).ToArray();
+                List<HistogramTable> lista = new List<HistogramTable>();
+                for (int i = 0; i < histoFinal.Count(); i++)
+                {
+                    HistogramTable objeto = new HistogramTable();
+                    objeto.fecha = histoFinal.ElementAt(i).fecha;
+                    objeto.horas = histoFinal.ElementAt(i).horas;
+                    lista.Add(objeto);
+                }
+                responseCalculo.valor = valor.ToString() + " Hr y " + minutes + " Min";
+                responseCalculo.valid = true;
+                responseCalculo.HistogramTable = lista;
+                return responseCalculo;
+
             }
             else
             {
-                return "No se registraron horas";
+                var histograma = new List<HistogramTable>();
+                for (int i = 0; i < arregloDates.Count(); i++)
+                {
+                    string fecha = arregloDates.ElementAt(i);
+                    HistogramTable objeto = new HistogramTable();
+                    objeto.fecha = fecha;
+                    objeto.horas = 0;
+                    histograma.Add(objeto);
+
+                }
+                responseCalculo.HistogramTable = histograma;
+                responseCalculo.valor = "No se registraron horas de radiación solar"; ;
+                responseCalculo.valid = true;
+                return responseCalculo;
             }
+            
+            
 
         }
         public async Task<ResponseCalculoDTO> GetHorasFrio(int idEstacion,string fechaInicio, string fechaFin)
@@ -107,17 +179,36 @@ namespace ApiDavis.Infraestructure.Repositories
                 
                     float tiempo = (float)acumula / (float)4;
                     int valor = Convert.ToInt32(Math.Floor(tiempo));
-                    string minutes = (tiempo - valor) == 0.75 ? "45" : (tiempo - valor) == 0.50 ? "30" : "15";
-
-                    responseCalculo.valor = valor.ToString() + " horas y " + minutes + " minutos";
+                    string minutes = (tiempo - valor) == 0.75 ? "45" : (tiempo - valor) == 0.50 ? "30" : (tiempo - valor) == 0.25 ? "15" : "0";
+                var histoFinal= histograma.OrderBy(da => da.fecha).ToArray();
+                    List<HistogramTable> lista = new List<HistogramTable>();
+                    for(int i = 0; i < histoFinal.Count(); i++)
+                    {
+                        HistogramTable objeto = new HistogramTable();
+                        objeto.fecha = histoFinal.ElementAt(i).fecha;
+                        objeto.horas = histoFinal.ElementAt(i).horas;
+                        lista.Add(objeto);
+                    }
+                    responseCalculo.valor = valor.ToString() + " Hr y " + minutes + " Min";
                     responseCalculo.valid = true;
-                    responseCalculo.HistogramTable = histograma;
+                    responseCalculo.HistogramTable = lista;
                     return responseCalculo;
                 
             }else
             {
-                responseCalculo.valor = "No se registraron horas"; ;
-                responseCalculo.valid = false;
+                var histograma = new List<HistogramTable>();
+                for (int i = 0; i < arregloDates.Count(); i++)
+                {
+                    string fecha = arregloDates.ElementAt(i);
+                    HistogramTable objeto = new HistogramTable();
+                        objeto.fecha = fecha;
+                        objeto.horas = 0;
+                        histograma.Add(objeto);
+                    
+                }
+                responseCalculo.HistogramTable = histograma;
+                responseCalculo.valor = "No se registraron horas frío"; ;
+                responseCalculo.valid = true;
                 return responseCalculo;
             }   
         
