@@ -20,5 +20,6 @@ namespace ApiDavis.Infraestructure.Repositories
         public DbSet<Empresa> Empresa { get; set; }
         public DbSet<Estacion> Estacion { get; set; }
         public DbSet<DataDavisEntiti> DataDavis { get; set; }
+        public DbSet<EstacionMaestro> EstacionMaestro { get; set; }
     }
 }

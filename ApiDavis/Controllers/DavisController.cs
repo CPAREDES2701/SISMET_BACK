@@ -234,5 +234,11 @@ namespace ApiDavis.Controllers
             
             return Ok(resultado);
         }
+        [HttpGet("InduccionFloral/{idEstacion:int}")] 
+        public async Task<ActionResult<List<InduccionFloral>>> GetInduccionFloral(int idEstacion)
+        {
+            var resultado = await _davisRepository.GetInduccionFloral(idEstacion);
+            return Ok(resultado);
+        }
     }
 }

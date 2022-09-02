@@ -16,5 +16,7 @@ namespace ApiDavis.Core.Interfaces
         Task<bool> CrearEstacion(EstacionRequestDTO estacion);
         Task<ResponseCalculoDTO> GetHorasFrio(int idEstacion,string fechaInicio, string fechaFin);
         Task<ResponseCalculoDTO> GetRadiacionSolar(int idEstacion, string fechaInicio, string fechaFin);
+        Task<List<InduccionFloral>> GetInduccionFloral(int idEstacion);
+
     }
 }
