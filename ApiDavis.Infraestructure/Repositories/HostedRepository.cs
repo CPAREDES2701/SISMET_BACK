@@ -91,15 +91,11 @@ namespace ApiDavis.Infraestructure.Repositories
             string connStr = configuration.GetConnectionString("defaultConnection");
             MySqlConnection conn = new MySqlConnection(connStr);
             HttpClient client = new HttpClient();
-         
-          
             try
             {
                 HttpResponseMessage response = await client.GetAsync($"https://api.weatherlink.com/v1/NoaaExt.json?user={objeto.usuario}&pass={objeto.clave}&apiToken={objeto.token}");
                 response.EnsureSuccessStatusCode();
-
                 string responseBody = await response.Content.ReadAsStringAsync();
-
                 DavisRoot root = JsonSerializer.Deserialize<DavisRoot>(responseBody);
                 Console.WriteLine(root.dewpoint_c + "___" + root.location + "___" + objeto.zona);
                 conn.Open();

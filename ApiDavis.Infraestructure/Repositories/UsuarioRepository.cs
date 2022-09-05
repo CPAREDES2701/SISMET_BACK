@@ -64,11 +64,6 @@ namespace ApiDavis.Infraestructure.Repositories
                 obj.existe = 3;
                 return obj;
             }
-                   
-            
-
-            
-
         }
 
         public async Task<bool> CrearUsuario(Usuario usuario)

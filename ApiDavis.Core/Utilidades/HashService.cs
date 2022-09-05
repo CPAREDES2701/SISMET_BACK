@@ -98,7 +98,6 @@ namespace ApiDavis.Core.Utilidades
             mail.Subject = "Test";
             mail.Body = body;
             mail.IsBodyHtml = true;
-            //mail.BodyEncoding = Encoding.UTF8;
             SmtpServer.Port = 587;
             SmtpServer.Credentials = new System.Net.NetworkCredential(correoSend, clave);
             SmtpServer.EnableSsl = true;
@@ -127,7 +126,6 @@ namespace ApiDavis.Core.Utilidades
                 AuthToken = new JwtSecurityTokenHandler().WriteToken(securityToken),
                 ExpireIn = expiracion,
                 Message=""
-
             };
         }
     }

@@ -10,7 +10,7 @@ namespace ApiDavis.Controllers
 {
     [Route("api/Usuario")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UsuarioController: ControllerBase
     {
         private readonly IUsuarioRepository _usuarioRepository;

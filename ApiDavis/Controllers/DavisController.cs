@@ -2,6 +2,8 @@
 using ApiDavis.Core.Interfaces;
 using ClosedXML.Excel;
 using Hangfire;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using RazorEngine;
@@ -13,6 +15,7 @@ namespace ApiDavis.Controllers
 
     [ApiController]
     [Route("api/davis")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class DavisController: ControllerBase
     {
         private readonly IDavisRepository _davisRepository;
