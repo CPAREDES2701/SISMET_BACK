@@ -89,11 +89,12 @@ namespace ApiDavis.Infraestructure.Repositories
         public async Task TraerData(ClientInfo objeto, string fecha)
         {
             string connStr = configuration.GetConnectionString("defaultConnection");
+            string apiDavis = configuration.GetSection("ApiDavis").Value;
             MySqlConnection conn = new MySqlConnection(connStr);
             HttpClient client = new HttpClient();
             try
             {
-                HttpResponseMessage response = await client.GetAsync($"https://api.weatherlink.com/v1/NoaaExt.json?user={objeto.usuario}&pass={objeto.clave}&apiToken={objeto.token}");
+                HttpResponseMessage response = await client.GetAsync($"{apiDavis}?user={objeto.usuario}&pass={objeto.clave}&apiToken={objeto.token}");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 DavisRoot root = JsonSerializer.Deserialize<DavisRoot>(responseBody);

@@ -10,6 +10,5 @@ namespace ApiDavis.Core.Interfaces
     public interface ISeguridadRepository
     {
         Task<JwtResponse> Autenticar(UsuarioLoginDTO usuario);
-        Task RecuperarContraseña(RecuperarContrasenaDTO usuario);
     }
 }

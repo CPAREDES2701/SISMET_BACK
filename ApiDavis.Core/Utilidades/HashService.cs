@@ -3,6 +3,7 @@ using ApiDavis.Core.Entities;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using RazorEngine;
@@ -26,11 +27,12 @@ namespace ApiDavis.Core.Utilidades
         private const string VIKey = "@1B2c3D4e5F6g7H8";
         private const int KeySize = 128;
         private readonly string _pathRoot;
-
-        public HashService(IServiceProvider serviceProvider)
+        private readonly IConfiguration configuration;
+        public HashService(IServiceProvider serviceProvider, IServiceScopeFactory factory)
         {
             var env = serviceProvider.GetService<IHostingEnvironment>();
             _pathRoot = $"{env.ContentRootPath}{Constantes.PathFinanciamientoTemplate}";
+            configuration = factory.CreateScope().ServiceProvider.GetRequiredService<IConfiguration>();
         }
 
         public  string Encriptar(string plainText)
@@ -81,12 +83,13 @@ namespace ApiDavis.Core.Utilidades
             return System.Text.Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount).TrimEnd("\0".ToCharArray());
         }
 
-        public async Task EnviarCorreoAsync<T>(EmailData<T> obj, RecuperarClaveEmail message)
+        public async Task EnviarCorreoAsync<T>(EmailData<T> obj, RecuperarClaveEmail message,string templateKey)
         {
+            string smtp = configuration.GetSection("EmailSettings").GetSection("CorreoEnvio").Value;
             string ruta = "";
             ruta = $@"{_pathRoot}{obj.HtmlTemplateName}";
             string html = System.IO.File.ReadAllText(ruta);
-            string body = Engine.Razor.RunCompile(html, $"templateKey_", typeof(T), message);
+            string body = Engine.Razor.RunCompile(html, $"{templateKey}", typeof(T), message);
             string correoDestino = string.Join(',', obj.EmailList);
             string correoSend = "cesargpq@gmail.com";
             string clave = "cuxhvzvmdulchxtq";

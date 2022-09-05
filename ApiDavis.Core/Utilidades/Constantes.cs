@@ -10,6 +10,7 @@ namespace ApiDavis.Core.Utilidades
     {
         public const string PathFinanciamientoTemplate = "\\\\Content\\";
         public const string RecuperarContraseña = "\\RecuperarContrasena.html";
+        public const string CrearUsuario = "\\RegistroUsuario.html";
         public const string AgostoIni = "-08-01";
         public const string AgostoFin = "-08-31";
         public const string SetiembreIni = "-09-01";
