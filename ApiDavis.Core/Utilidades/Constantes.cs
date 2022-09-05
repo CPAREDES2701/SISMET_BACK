@@ -18,5 +18,51 @@ namespace ApiDavis.Core.Utilidades
         public const string OctubreFin = "-10-31";
         public const string NoviembreIni = "-11-01";
         public const string NoviembreFin = "-11-30";
+        public static readonly string[] meses = { "Enero","Febrero","Marzo","Abril","Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre" };
+
+        public static DateTime retornarFechaIni(int number)
+        {
+            DateTime retornarFecha = new DateTime();
+            var anio = DateTime.Now.Year.ToString();
+            if (number == 8)
+            {
+                retornarFecha = Convert.ToDateTime(anio + AgostoIni);
+            }
+            if (number == 9)
+            {
+                retornarFecha = Convert.ToDateTime(anio + SetiembreIni);
+            }
+            if (number == 10)
+            {
+                retornarFecha = Convert.ToDateTime(anio + OctubreIni);
+            }
+            if (number == 11)
+            {
+                retornarFecha = Convert.ToDateTime(anio + NoviembreIni);
+            }
+            return retornarFecha;
+        }
+        public static DateTime retornarFechaFin(int number)
+        {
+            DateTime retornarFecha = new DateTime();
+            var anio = DateTime.Now.Year.ToString();
+            if (number == 8)
+            {
+                retornarFecha = Convert.ToDateTime(anio + AgostoFin);
+            }
+            if (number == 9)
+            {
+                retornarFecha = Convert.ToDateTime(anio + SetiembreFin);
+            }
+            if (number == 10)
+            {
+                retornarFecha = Convert.ToDateTime(anio + OctubreFin);
+            }
+            if (number == 11)
+            {
+                retornarFecha = Convert.ToDateTime(anio + NoviembreIni);
+            }
+            return retornarFecha;
+        }
     }
 }

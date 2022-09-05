@@ -31,36 +31,52 @@ namespace ApiDavis.Infraestructure.Repositories
             List<InduccionFloral> induccion = new List<InduccionFloral>();
             ResponseCalculoDTO responseCalculo = new ResponseCalculoDTO();
             
-           
-            InduccionFloral objetoMes = new InduccionFloral();
             EstacionMaestro obj = new EstacionMaestro();
-            var anio = DateTime.Now.Year.ToString();
-            DateTime agostoIni = Convert.ToDateTime(anio + Constantes.AgostoIni);
-            DateTime agostoFin = Convert.ToDateTime(anio + Constantes.AgostoFin);
-            agostoFin = agostoFin.AddDays(1).AddSeconds(-1);
-            var dataAgruppada = await _context.DataDavis.Where(x=> x.EstacionId==idEstacion &&(x.fecha >= agostoIni && x.fecha <= agostoFin.AddDays(1).AddSeconds(-1))).ToListAsync();
             var estacionMaestra = await _context.EstacionMaestro.Where(x => x.EstacionId == idEstacion).ToListAsync();
             obj.mesInicio = estacionMaestra.ElementAt(0).mesInicio;
             obj.mesFin = estacionMaestra.ElementAt(0).mesFin;
             obj.temperatura = estacionMaestra.ElementAt(0).temperatura;
-            double suma = 0;
-            for(int i = 0; i < dataAgruppada.Count(); i++)
+            for(int j = obj.mesInicio; j <= obj.mesFin; j++)
             {
-                double tempHigh = Convert.ToDouble(dataAgruppada.ElementAt(i).temp_day_high_f);
-                double tempLow = Convert.ToDouble(dataAgruppada.ElementAt(i).temp_day_low_f);
-                double resultado = ((tempHigh + tempLow) / 2) - obj.temperatura;
-                if (resultado > 0)
+                InduccionFloral objetoMes = new InduccionFloral();
+                var anio = DateTime.Now.Year.ToString();
+                DateTime agostoIni = Convert.ToDateTime(anio + Constantes.AgostoIni);
+                DateTime agostoFin = Convert.ToDateTime(anio + Constantes.AgostoFin);
+                
+                agostoIni = Constantes.retornarFechaIni(j);
+                agostoFin = Constantes.retornarFechaFin(j);
+                
+                agostoFin = agostoFin.AddDays(1).AddSeconds(-1);
+                var dataAgruppada = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && (x.fecha >= agostoIni && x.fecha <= agostoFin.AddDays(1).AddSeconds(-1))).ToListAsync();
+
+                double suma = 0;
+                for (int i = 0; i < dataAgruppada.Count(); i++)
                 {
-                    suma = suma + resultado;
+                    double tempHigh = Convert.ToDouble(dataAgruppada.ElementAt(i).temp_day_high_f);
+                    double tempLow = Convert.ToDouble(dataAgruppada.ElementAt(i).temp_day_low_f);
+                    double resultado = ((tempHigh + tempLow) / 2) - obj.temperatura;
+                    if (resultado > 0)
+                    {
+                        suma = suma + resultado;
+                    }
                 }
+                double total = 0;
+                if (suma > 0)
+                {
+                    total = suma / dataAgruppada.Count();
+                }
+                else
+                {
+                    total = 0;
+                }
+                
 
+                objetoMes.mes = Constantes.meses[j-1];
+                objetoMes.valor = Math.Round(total, 2);
+                
+                induccion.Add(objetoMes);
             }
-
-            double total = suma / dataAgruppada.Count();
-
-            objetoMes.mes = "Agosto";
-            objetoMes.valor = Math.Round(total,2);
-            induccion.Add(objetoMes);
+           
             //setiembre
 
 

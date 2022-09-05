@@ -1,6 +1,7 @@
 ﻿using ApiDavis.Core.DTOs;
 using ApiDavis.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MySqlConnector;
@@ -18,10 +19,12 @@ namespace ApiDavis.Infraestructure.Repositories
     {
         Timer _timer;
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration configuration;
 
         public HostedRepository(IServiceScopeFactory factory)
         {
             _context = factory.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            configuration = factory.CreateScope().ServiceProvider.GetRequiredService<IConfiguration>();
         }
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -85,7 +88,7 @@ namespace ApiDavis.Infraestructure.Repositories
         }
         public async Task TraerData(ClientInfo objeto, string fecha)
         {
-            string connStr = "server=localhost; port=3306; database=davisbdprd; user=root; password=123456; Persist Security Info=False;";
+            string connStr = configuration.GetConnectionString("defaultConnection");
             MySqlConnection conn = new MySqlConnection(connStr);
             HttpClient client = new HttpClient();
          
