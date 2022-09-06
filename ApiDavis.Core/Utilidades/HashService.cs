@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using RazorEngine;
 using RazorEngine.Templating;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -130,6 +131,19 @@ namespace ApiDavis.Core.Utilidades
                 ExpireIn = expiracion,
                 Message=""
             };
+        }
+        public void log(string cadena)
+        {
+            var fileName = $@"Logs\Log-Davis-{DateTime.Now.ToString("ddMMyyyy")}.txt";
+            
+            FileStream fs = new FileStream(fileName, FileMode.Append);
+            byte[] data = System.Text.Encoding.Default.GetBytes("\r\n" + cadena);
+
+            fs.Write(data);
+            fs.Close();
+
+
+            Console.WriteLine("done");
         }
     }
 }

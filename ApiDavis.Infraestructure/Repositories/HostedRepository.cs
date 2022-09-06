@@ -1,5 +1,6 @@
 ﻿using ApiDavis.Core.DTOs;
 using ApiDavis.Core.Interfaces;
+using ApiDavis.Core.Utilidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,11 +21,13 @@ namespace ApiDavis.Infraestructure.Repositories
         Timer _timer;
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration configuration;
+        private readonly HashService hashService;
 
-        public HostedRepository(IServiceScopeFactory factory)
+        public HostedRepository(IServiceScopeFactory factory, HashService hashService)
         {
             _context = factory.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
             configuration = factory.CreateScope().ServiceProvider.GetRequiredService<IConfiguration>();
+            this.hashService = hashService;
         }
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -113,7 +116,13 @@ namespace ApiDavis.Infraestructure.Repositories
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                hashService.log("---------------------------------------------");
+                hashService.log(ex.Message);
+                hashService.log("---------------------------------------------");
+                hashService.log(ex.StackTrace);
+                hashService.log("---------------------------------------------");
+                hashService.log(ex.InnerException.ToString());
+                hashService.log("---------------------------------------------");
             }
 
             conn.Close();

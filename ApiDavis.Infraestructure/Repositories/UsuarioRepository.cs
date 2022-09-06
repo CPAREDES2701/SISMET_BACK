@@ -102,7 +102,7 @@ namespace ApiDavis.Infraestructure.Repositories
         {
             try
             {
-                var existeUsuario = await _context.Usuario.AnyAsync(p => p.UserName == usuario.UserName  || p.NroDocumento == usuario.NroDocumento);
+                var existeUsuario = await _context.Usuario.AnyAsync(p => p.UserName == usuario.UserName || p.correo == usuario.correo || p.NroDocumento == usuario.NroDocumento);
                 if (existeUsuario)
                 {
                     return existeUsuario;
@@ -135,8 +135,11 @@ namespace ApiDavis.Infraestructure.Repositories
                 await hashService.EnviarCorreoAsync(obj,message,templateKey);
                 return existeUsuario;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                hashService.log("---------------------------------------------");
+                hashService.log(e.Message);
+                hashService.log("---------------------------------------------");
 
                 throw;
             }

@@ -25,6 +25,9 @@ namespace ApiDavis.Infraestructure.Repositories
         {
             try
             {
+                hashService.log("---------------------------------------------");
+                hashService.log("Inicio de loggin");
+                hashService.log("---------------------------------------------");
                 var encriptado = hashService.Encriptar(usuario.Password);
 
                 var existe = await _context.Usuario.AnyAsync(u => u.UserName == usuario.usuario);
@@ -77,15 +80,17 @@ namespace ApiDavis.Infraestructure.Repositories
                 {
                     if (resultado.Estado == false) return new JwtResponse { Message = "Usuario bloqueado" };
                     var usuarioToken = await _context.Usuario.Where(x => x.UserName == usuario.usuario).FirstOrDefaultAsync();
-
+                    hashService.log("---------------------------------------------");
+                    hashService.log("Fin de loggin");
+                    hashService.log("---------------------------------------------");
                     return await hashService.ConstruirToken(usuarioToken);
                 }
-
+               
                 return new JwtResponse { };
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                hashService.log(e.Message);
                 throw;
             }
         }

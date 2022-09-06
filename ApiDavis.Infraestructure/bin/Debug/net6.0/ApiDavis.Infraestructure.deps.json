@@ -756,6 +756,14 @@
           "Microsoft.NETCore.Targets": "1.0.1"
         }
       },
+      "Serilog/2.11.0": {
+        "runtime": {
+          "lib/net5.0/Serilog.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.11.0.0"
+          }
+        }
+      },
       "System.AppContext/4.1.0": {
         "dependencies": {
           "System.Runtime": "4.1.0"
@@ -1091,6 +1099,7 @@
           "Microsoft.EntityFrameworkCore": "6.0.8",
           "Microsoft.IdentityModel.Tokens": "6.10.0",
           "RazorEngine.NetCore": "3.1.0",
+          "Serilog": "2.11.0",
           "System.IdentityModel.Tokens.Jwt": "6.10.0"
         },
         "runtime": {
@@ -1489,6 +1498,13 @@
       "sha512": "sha512-QfS/nQI7k/BLgmLrw7qm7YBoULEvgWnPI+cYsbfCVFTW8Aj+i8JhccxcFMu1RWms0YZzF+UHguNBK4Qn89e2Sg==",
       "path": "runtime.native.system/4.0.0",
       "hashPath": "runtime.native.system.4.0.0.nupkg.sha512"
+    },
+    "Serilog/2.11.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ysv+hBzTul6Dp+Hvm10FlhJO3yMQcFKSAleus+LpiIzvNstpeV4Z7gGuIZ1OPNfIMulSHOjmLuGAEDKzpnV8ZQ==",
+      "path": "serilog/2.11.0",
+      "hashPath": "serilog.2.11.0.nupkg.sha512"
     },
     "System.AppContext/4.1.0": {
       "type": "package",
