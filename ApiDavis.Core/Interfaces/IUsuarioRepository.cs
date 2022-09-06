@@ -17,7 +17,7 @@ namespace ApiDavis.Core.Interfaces
         Task<bool> CrearUsuario2(UsuarioRequestDTO usuario);
 
         Task<ResponseDTO> EliminarUsuario(int id);
-        Task<ResponseDTO> CambiarContraseña(string correo);
+        Task<ResponseDTO> CambiarContraseña(CambiarClaveDTO correo);
     }
 
 

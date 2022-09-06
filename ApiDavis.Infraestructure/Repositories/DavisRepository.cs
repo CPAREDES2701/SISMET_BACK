@@ -19,11 +19,13 @@ namespace ApiDavis.Infraestructure.Repositories
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper mapper;
+        private readonly HashService hashService;
 
-        public DavisRepository(ApplicationDbContext context, IMapper mapper)
+        public DavisRepository(ApplicationDbContext context, IMapper mapper,HashService hashService)
         {
             _context = context;
             this.mapper = mapper;
+            this.hashService = hashService;
         }
 
         public async Task<List<InduccionFloral>> GetInduccionFloral(int idEstacion)
@@ -306,6 +308,7 @@ namespace ApiDavis.Infraestructure.Repositories
                     return obj;
                 }
                 HttpClient client = new HttpClient();
+                
                 HttpResponseMessage response = await client.GetAsync($"https://api.weatherlink.com/v1/NoaaExt.json?user={existe.Usuario}&pass={existe.Clave}&apiToken={existe.Token}");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
@@ -321,6 +324,82 @@ namespace ApiDavis.Infraestructure.Repositories
                 root.davis_current_observation.temp_day_low_f = Convert.ToString(Math.Round((Convert.ToDouble(root.davis_current_observation.temp_day_low_f) - 32) * 5 / 9, 4));
 
                 return root;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public async Task<ResponseDavisDto> GetEstacionByFechaPagination(RequestDavisPaginadoDto dto)
+        {
+            try
+            {
+                ResponseDavisDto obj = new ResponseDavisDto();
+                var existe = await _context.Estacion.AnyAsync(x => x.Id == dto.idPrimeraEstacion);
+                var existeSecond = await _context.Estacion.AnyAsync(x => x.Id == dto.idSegundaEstacion);
+
+                if (!existe && !existeSecond)
+                {
+                    obj.message = $"No existe ninguna estación seleccionada";
+                    return obj;
+                }
+                if (!existe)
+                {
+                    obj.message = $"No se encontró la estación {dto.idPrimeraEstacion} seleccionada";
+                    return obj;
+                }
+                if (!existeSecond)
+                {
+                    obj.message = $"No se encontró la estación {dto.idSegundaEstacion} seleccionada";
+                    return obj;
+                }
+
+                string fechaInicio = dto.fechaInicio + " " + dto.horaInicio;
+                string fechaFin = dto.fechaFin + " " + dto.horaFin;
+
+                List<ResponseRootDavisDTO> lista = new List<ResponseRootDavisDTO>();
+
+                decimal promedio = 0;
+                decimal promedioSecond = 0;
+                if (dto.idPrimeraEstacion != 0)
+                {
+                    var queryable = _context.DataDavis.Where(x => x.EstacionId == dto.idPrimeraEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).AsQueryable();
+                    double cantidad = await queryable.CountAsync();
+                    var dataFirst = await queryable.OrderBy(data => data.fecha).PaginarEstacion(dto).ToListAsync();
+
+                    if (dataFirst.Count > 0)
+                    {
+                        List<DataDavisEntiti> PrimeraEstacion = new List<DataDavisEntiti>();
+                        foreach (var davis in dataFirst)
+                        {
+                            promedio += Convert.ToDecimal(davis.temp_c);
+                            PrimeraEstacion.Add(davis);
+                        }
+                        obj.promedioTempEstacion = Convert.ToString(Math.Round(promedio / dataFirst.Count(), 4));
+                        obj.Estacion = PrimeraEstacion;
+
+                    }
+                }
+                if (dto.idSegundaEstacion != 0)
+                {
+                    var queryable = _context.DataDavis.Where(x => x.EstacionId == dto.idSegundaEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).AsQueryable();
+                    double cantidad = await queryable.CountAsync();
+                    var dataSecond = await queryable.OrderBy(data => data.fecha).PaginarEstacion(dto).ToListAsync();
+                    if (dataSecond.Count > 0)
+                    {
+                        List<DataDavisEntiti> SegundaEstacion = new List<DataDavisEntiti>();
+                        foreach (var davis in dataSecond)
+                        {
+                            promedioSecond += Convert.ToDecimal(davis.temp_c);
+                            SegundaEstacion.Add(davis);
+                        }
+                        obj.promedioTempSegundaEstacion = Convert.ToString(Math.Round(promedioSecond / dataSecond.Count(), 4));
+                        obj.SecondEstacion = SegundaEstacion;
+
+                    }
+                }
+                return obj;
             }
             catch (Exception)
             {

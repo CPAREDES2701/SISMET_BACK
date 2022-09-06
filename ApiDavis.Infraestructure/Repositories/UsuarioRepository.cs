@@ -145,12 +145,12 @@ namespace ApiDavis.Infraestructure.Repositories
             }
         }
 
-        public async Task<ResponseDTO> CambiarContraseña(string correo)
+        public async Task<ResponseDTO> CambiarContraseña(CambiarClaveDTO correo)
         {
             try
             {
                 Constantes consta = new Constantes();
-                var existe = await _context.Usuario.AnyAsync(u => u.correo == correo || u.UserName == correo);
+                var existe = await _context.Usuario.AnyAsync(u => u.correo == correo.dato || u.UserName == correo.dato);
                 ResponseDTO response = new ResponseDTO();
 
                 if (!existe)
@@ -160,7 +160,7 @@ namespace ApiDavis.Infraestructure.Repositories
                     response.TypeError = "Warning";
                     return response;
                 }
-                var usuarioDomain = await _context.Usuario.FirstOrDefaultAsync(x => x.correo == correo || x.UserName == correo);
+                var usuarioDomain = await _context.Usuario.FirstOrDefaultAsync(x => x.correo == correo.dato || x.UserName == correo.dato);
                 var contraseña = hashService.Desencriptar(usuarioDomain.Contrasena);
                 RecuperarClaveEmail message = new RecuperarClaveEmail();
 
@@ -252,6 +252,7 @@ namespace ApiDavis.Infraestructure.Repositories
             try
             {
                 ExportUsuarioDto objUsuarios = new ExportUsuarioDto();
+                
                 var queryable = _context.Usuario
                     .Include(x => x.Rol)
                     .Include(x => x.Empresa)
