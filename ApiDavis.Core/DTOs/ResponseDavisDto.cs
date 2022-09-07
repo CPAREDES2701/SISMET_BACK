@@ -15,5 +15,7 @@ namespace ApiDavis.Core.DTOs
         public string promedioTempEstacion { get; set; }
         public string promedioTempSegundaEstacion { get; set; }
         public string message { get; set; }
+        public double totalEstacionOne { get; set; }
+        public double totalEstacionTwo { get; set; }
     }
 }

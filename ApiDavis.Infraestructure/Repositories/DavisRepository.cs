@@ -378,6 +378,7 @@ namespace ApiDavis.Infraestructure.Repositories
                         }
                         obj.promedioTempEstacion = Convert.ToString(Math.Round(promedio / dataFirst.Count(), 4));
                         obj.Estacion = PrimeraEstacion;
+                        obj.totalEstacionOne = cantidad;
 
                     }
                 }
@@ -396,6 +397,7 @@ namespace ApiDavis.Infraestructure.Repositories
                         }
                         obj.promedioTempSegundaEstacion = Convert.ToString(Math.Round(promedioSecond / dataSecond.Count(), 4));
                         obj.SecondEstacion = SegundaEstacion;
+                        obj.totalEstacionTwo = cantidad;
 
                     }
                 }
