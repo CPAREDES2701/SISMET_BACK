@@ -17,3 +17,9 @@ System.Text.Json.JsonReaderException: 'I' is an invalid start of a value. LineNu
    at System.Text.Json.Utf8JsonReader.Read()
    at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
 ---------------------------------------------
+---------------------------------------------
+Inicio de loggin
+---------------------------------------------
+---------------------------------------------
+Fin de loggin
+---------------------------------------------

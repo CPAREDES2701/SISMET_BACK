@@ -23,6 +23,8 @@ namespace ApiDavis.Core.DTOs
         public string wind_degrees { get; set; }
         public string wind_dir { get; set; }
         public string wind_kt { get; set; }
+        public string? wind_ms { get; set; }
+        public string? wind_kh { get; set; }
         public string et_day { get; set; }
         public string et_month { get; set; }
         public string et_year { get; set; }
