@@ -1,3 +1,14 @@
 .vs
 bin
 obj
+/.vs
+/ApiDavis/bin
+/ApiDavis/obj
+/ApiDavis.Core/bin
+/ApiDavis.Core/obj
+/ApiDavis.Infraestructure/bin
+/ApiDavis.Infraestructure/obj
+/DavisApi.IntegrationTests/bin
+/DavisApi.IntegrationTests/obj
+/DavisApi.UnitTests/bin
+/DavisApi.UnitTests/obj
