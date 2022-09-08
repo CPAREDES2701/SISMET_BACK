@@ -1,5 +1,6 @@
 ﻿using ApiDavis.Core.DTOs;
 using ApiDavis.Core.Interfaces;
+using ApiDavis.Core.Utilidades;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,11 +21,13 @@ namespace ApiDavis.Infraestructure.Repositories
         Timer _timer;
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration configuration;
+        private readonly HashService hashService;
 
-        public HostedRepository(IServiceScopeFactory factory)
+        public HostedRepository(IServiceScopeFactory factory, HashService hashService)
         {
             _context = factory.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
             configuration = factory.CreateScope().ServiceProvider.GetRequiredService<IConfiguration>();
+            this.hashService = hashService;
         }
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -89,17 +92,14 @@ namespace ApiDavis.Infraestructure.Repositories
         public async Task TraerData(ClientInfo objeto, string fecha)
         {
             string connStr = configuration.GetConnectionString("defaultConnection");
+            string apiDavis = configuration.GetSection("ApiDavis").Value;
             MySqlConnection conn = new MySqlConnection(connStr);
             HttpClient client = new HttpClient();
-         
-          
             try
             {
-                HttpResponseMessage response = await client.GetAsync($"https://api.weatherlink.com/v1/NoaaExt.json?user={objeto.usuario}&pass={objeto.clave}&apiToken={objeto.token}");
+                HttpResponseMessage response = await client.GetAsync($"{apiDavis}?user={objeto.usuario}&pass={objeto.clave}&apiToken={objeto.token}");
                 response.EnsureSuccessStatusCode();
-
                 string responseBody = await response.Content.ReadAsStringAsync();
-
                 DavisRoot root = JsonSerializer.Deserialize<DavisRoot>(responseBody);
                 Console.WriteLine(root.dewpoint_c + "___" + root.location + "___" + objeto.zona);
                 conn.Open();
@@ -109,14 +109,26 @@ namespace ApiDavis.Infraestructure.Repositories
                 temp_low = (temp_low - 32) * 5 / 9;
                 root.davis_current_observation.temp_day_low_f =  Math.Round(temp_low,1).ToString();
                 root.davis_current_observation.temp_day_high_f = Math.Round(temp_high, 1).ToString();
-                string sql = $"INSERT INTO DataDavis (fecha,dewpoint_c,pressure_mb,relative_humidity,temp_c,temp_day_high_f,temp_day_high_time,temp_day_low_f,temp_day_low_time,wind_degrees,wind_dir,wind_kt,et_day,et_month,et_year,rain_day_in,rain_month_in,rain_year_in,solar_radiation,uv_index,EstacionId,observation_time)" +
-                    $" VALUES ('{fecha}','{root.dewpoint_c}','{root.pressure_mb}','{root.relative_humidity}','{root.temp_c}','{root.davis_current_observation.temp_day_high_f}','{root.davis_current_observation.temp_day_high_time}','{root.davis_current_observation.temp_day_low_f}','{root.davis_current_observation.temp_day_low_time}','{root.wind_degrees}','{root.wind_dir}','{root.wind_kt}','{root.davis_current_observation.et_day}','{root.davis_current_observation.et_month}','{root.davis_current_observation.et_year}','{root.davis_current_observation.rain_day_in}','{root.davis_current_observation.rain_month_in}','{root.davis_current_observation.rain_year_in}','{root.davis_current_observation.solar_radiation}','{root.davis_current_observation.uv_index}','{objeto.zona}','{root.observation_time}')";
+                double wind_kt = Convert.ToDouble(root.wind_kt);
+                root.wind_kh = Math.Round((wind_kt * 1.851),2).ToString();
+                root.wind_ms = Math.Round((wind_kt / 1.944),2).ToString();
+                root.davis_current_observation.rain_day_in = Math.Round(Convert.ToDouble(root.davis_current_observation.rain_day_in) * 25.4, 2).ToString(); ;
+                root.davis_current_observation.rain_month_in = Math.Round(Convert.ToDouble(root.davis_current_observation.rain_month_in) * 25.4, 2).ToString();
+                root.davis_current_observation.rain_year_in = Math.Round(Convert.ToDouble(root.davis_current_observation.rain_year_in) * 25.4, 2).ToString();
+                string sql = $"INSERT INTO DataDavis (fecha,dewpoint_c,pressure_mb,relative_humidity,temp_c,temp_day_high_f,temp_day_high_time,temp_day_low_f,temp_day_low_time,wind_degrees,wind_dir,wind_kt,et_day,et_month,et_year,rain_day_in,rain_month_in,rain_year_in,solar_radiation,uv_index,EstacionId,observation_time,wind_ms,wind_kh)" +
+                    $" VALUES ('{fecha}','{root.dewpoint_c}','{root.pressure_mb}','{root.relative_humidity}','{root.temp_c}','{root.davis_current_observation.temp_day_high_f}','{root.davis_current_observation.temp_day_high_time}','{root.davis_current_observation.temp_day_low_f}','{root.davis_current_observation.temp_day_low_time}','{root.wind_degrees}','{root.wind_dir}','{root.wind_kt}','{root.davis_current_observation.et_day}','{root.davis_current_observation.et_month}','{root.davis_current_observation.et_year}','{root.davis_current_observation.rain_day_in}','{root.davis_current_observation.rain_month_in}','{root.davis_current_observation.rain_year_in}','{root.davis_current_observation.solar_radiation}','{root.davis_current_observation.uv_index}','{objeto.zona}','{root.observation_time}','{root.wind_ms}','{root.wind_kh}')";
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                hashService.log("---------------------------------------------");
+                hashService.log(ex.Message);
+                hashService.log("---------------------------------------------");
+                hashService.log(ex.StackTrace);
+                hashService.log("---------------------------------------------");
+                hashService.log(ex.InnerException.ToString());
+                hashService.log("---------------------------------------------");
             }
 
             conn.Close();

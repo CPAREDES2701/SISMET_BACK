@@ -19,8 +19,16 @@ namespace ApiDavis.Infraestructure.Repositories
         }
         public async Task<IEnumerable<Rol>> GetRoles()
         {
-            var post =await _context.Rol.ToListAsync();
-            return post;
+            try
+            {
+                var post = await _context.Rol.ToListAsync();
+                return post;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

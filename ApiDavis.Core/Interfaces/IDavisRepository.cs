@@ -12,6 +12,7 @@ namespace ApiDavis.Core.Interfaces
     {
         Task<RootDavisDTO> Get(int id);
         Task<ResponseDavisDto> GetEstacionByFecha(RequestDavisDto obj);
+        Task<ResponseDavisDto> GetEstacionByFechaPagination(RequestDavisPaginadoDto obj);
         Task<IEnumerable<EstacionResponseDTO>> GetEstaciones();
         Task<bool> CrearEstacion(EstacionRequestDTO estacion);
         Task<ResponseCalculoDTO> GetHorasFrio(int idEstacion,string fechaInicio, string fechaFin);

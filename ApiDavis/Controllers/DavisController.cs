@@ -2,6 +2,8 @@
 using ApiDavis.Core.Interfaces;
 using ClosedXML.Excel;
 using Hangfire;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using RazorEngine;
@@ -13,6 +15,7 @@ namespace ApiDavis.Controllers
 
     [ApiController]
     [Route("api/davis")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class DavisController: ControllerBase
     {
         private readonly IDavisRepository _davisRepository;
@@ -50,6 +53,17 @@ namespace ApiDavis.Controllers
         public async Task<ActionResult> GetEstacionByFecha([FromBody]RequestDavisDto dto)
         {
             var resultado = await _davisRepository.GetEstacionByFecha(dto);
+            if (resultado == null)
+            {
+                return NotFound("No existe estación a consultar");
+            }
+            return Ok(resultado);
+        }
+        [HttpPost("EstacionPaginado")]
+        //public async Task<ActionResult> GetEstacionByFecha(int idPrimeraEstacion, int idSegundaEstacion, DateTime fecha)
+        public async Task<ActionResult> GetEstacionByFechaPagination([FromBody] RequestDavisPaginadoDto dto)
+        {
+            var resultado = await _davisRepository.GetEstacionByFechaPagination(dto);
             if (resultado == null)
             {
                 return NotFound("No existe estación a consultar");

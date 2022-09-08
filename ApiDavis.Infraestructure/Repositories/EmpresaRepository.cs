@@ -22,9 +22,18 @@ namespace ApiDavis.Infraestructure.Repositories
         }
         public async Task<List<EmpresaResponseDTO>> Get()
         {
-            var empresas = await _context.Empresa.ToListAsync();
-            var empresasResponse = mapper.Map<List<EmpresaResponseDTO>>(empresas);
-            return empresasResponse;
+            try
+            {
+                var empresas = await _context.Empresa.ToListAsync();
+                var empresasResponse = mapper.Map<List<EmpresaResponseDTO>>(empresas);
+                return empresasResponse;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
     }
 }

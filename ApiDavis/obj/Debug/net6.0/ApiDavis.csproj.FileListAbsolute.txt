@@ -270,3 +270,4 @@ G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis\obj\Debug\net6.0\refint
 G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis\obj\Debug\net6.0\ApiDavis.pdb
 G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis\obj\Debug\net6.0\ApiDavis.genruntimeconfig.cache
 G:\Xternal\Davis - Proyecto\Backend\SISMET_BACK\ApiDavis\obj\Debug\net6.0\ref\ApiDavis.dll
+C:\APIDAVISBACKEND\ApiDavis\ApiDavis\bin\Debug\net6.0\Serilog.dll

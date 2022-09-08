@@ -15,5 +15,11 @@ namespace ApiDavis.Core.Utilidades
                 .Skip((paginacionDTO.Pagina-1) * paginacionDTO.RecordsPorPagina)
                 .Take(paginacionDTO.RecordsPorPagina);
         }
+        public static IQueryable<T> PaginarEstacion<T>(this IQueryable<T> queryable, RequestDavisPaginadoDto paginacionDTO)
+        {
+            return queryable
+                .Skip((paginacionDTO.Pagina - 1) * paginacionDTO.RecordsPorPagina)
+                .Take(paginacionDTO.RecordsPorPagina);
+        }
     }
 }

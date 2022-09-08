@@ -23,72 +23,78 @@ namespace ApiDavis.Infraestructure.Repositories
         }
         public async Task<JwtResponse> Autenticar(UsuarioLoginDTO usuario)
         {
-            var encriptado = hashService.Encriptar(usuario.Password);
-
-            var existe = await _context.Usuario.AnyAsync(u => u.UserName == usuario.usuario);
-
-            if (!existe)
+            try
             {
-                return new JwtResponse
-                {
-                    Message = "El Usuario no Existe"
-                };
-            }
+                hashService.log("---------------------------------------------");
+                hashService.log("Inicio de loggin");
+                hashService.log("---------------------------------------------");
+                var encriptado = hashService.Encriptar(usuario.Password);
 
-            var resultado = await _context.Usuario.Where(u => u.UserName == usuario.usuario && u.Contrasena == encriptado).FirstOrDefaultAsync();
+                var existe = await _context.Usuario.AnyAsync(u => u.UserName == usuario.usuario);
 
-            
-            if (existe && resultado == null) 
-            {
-                var usuarioUpdate = await _context.Usuario.Where(u => u.UserName == usuario.usuario).FirstOrDefaultAsync();
-                if (usuarioUpdate.Estado == true)
+                if (!existe)
                 {
-                    if (usuarioUpdate.Intentos < 3)
+                    return new JwtResponse
                     {
-                        if (usuarioUpdate.Intentos == 2)
-                        {
-                            usuarioUpdate.Estado = false;
-                            _context.Update(usuarioUpdate);
-                            await _context.SaveChangesAsync();
-                        }
-                        usuarioUpdate.Intentos = usuarioUpdate.Intentos + 1;
-                        _context.Update(usuarioUpdate);
-                        await _context.SaveChangesAsync();
-                        return new JwtResponse
-                        {
-                            Message = "Datos Incorrectos"
-                        };
-
-                    }
-                }
-                else
-                {
-                   
-                    return new JwtResponse {
-                        Message="Usuario bloqueado"
+                        Message = "El Usuario no Existe"
                     };
                 }
 
+                var resultado = await _context.Usuario.Where(u => u.UserName == usuario.usuario && u.Contrasena == encriptado).FirstOrDefaultAsync();
 
 
+                if (existe && resultado == null)
+                {
+                    var usuarioUpdate = await _context.Usuario.Where(u => u.UserName == usuario.usuario).FirstOrDefaultAsync();
+                    if (usuarioUpdate.Estado == true)
+                    {
+                        if (usuarioUpdate.Intentos < 3)
+                        {
+                            if (usuarioUpdate.Intentos == 2)
+                            {
+                                usuarioUpdate.Estado = false;
+                                _context.Update(usuarioUpdate);
+                                await _context.SaveChangesAsync();
+                            }
+                            usuarioUpdate.Intentos = usuarioUpdate.Intentos + 1;
+                            _context.Update(usuarioUpdate);
+                            await _context.SaveChangesAsync();
+                            return new JwtResponse
+                            {
+                                Message = "Datos Incorrectos"
+                            };
 
+                        }
+                    }
+                    else
+                    {
+                        return new JwtResponse
+                        {
+                            Message = "Usuario bloqueado"
+                        };
+                    }
+                }
+
+
+                if (resultado != null)
+                {
+                    if (resultado.Estado == false) return new JwtResponse { Message = "Usuario bloqueado" };
+                    var usuarioToken = await _context.Usuario.Where(x => x.UserName == usuario.usuario).FirstOrDefaultAsync();
+                    hashService.log("---------------------------------------------");
+                    hashService.log("Fin de loggin");
+                    hashService.log("---------------------------------------------");
+                    return await hashService.ConstruirToken(usuarioToken);
+                }
+               
+                return new JwtResponse { };
             }
-            
-
-            if (resultado!=null)
-            {   if(resultado.Estado==false) return new JwtResponse { Message = "Usuario bloqueado" };
-                var usuarioToken = await _context.Usuario.Where(x => x.UserName == usuario.usuario).FirstOrDefaultAsync();
-
-                return await hashService.ConstruirToken(usuarioToken);
+            catch (Exception e)
+            {
+                hashService.log(e.Message);
+                throw;
             }
-            
-            return new JwtResponse { };
         }
 
-        public Task RecuperarContraseña(RecuperarContrasenaDTO usuario)
-        {
-
-            throw new NotImplementedException();
-        }
+       
     }
 }

@@ -10,7 +10,7 @@ namespace ApiDavis.Controllers
 {
     [Route("api/Rol")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class RolController: ControllerBase
     {
         private readonly IRolRepository _repository;

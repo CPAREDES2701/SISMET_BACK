@@ -10,7 +10,7 @@ namespace ApiDavis.Controllers
 {
     [Route("api/Usuario")]
     [ApiController]
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class UsuarioController: ControllerBase
     {
         private readonly IUsuarioRepository _usuarioRepository;
@@ -88,9 +88,9 @@ namespace ApiDavis.Controllers
             var resultado = await _usuarioRepository.EliminarUsuario(id);
             return Ok(resultado);
         }
-
-        [HttpPost("CambiarContraseña")]
-        public async Task<ActionResult> CambiarContraseña(string dato)
+        [AllowAnonymous]
+        [HttpPost("CambiarContrasena")]
+        public async Task<ActionResult> CambiarContraseña([FromBody] CambiarClaveDTO dato)
         {
             var resultado = await _usuarioRepository.CambiarContraseña(dato);
 

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "xocqkFmftoohHVy3SebDbCL9sjsBtwz6deCawjlZAiISzh/k+B2TAp46t7zm/xDoQ+zm3OjUeDv7TieqHs6A8g==",
+  "dgSpecHash": "CanspBSUkQZUTE08DBP/CihI+DX8u6YqhOk3eYt+tEfic2kwntQIAWKGQq7J1NufWZnHyvHXkSRQLqzxdNEp3w==",
   "success": true,
   "projectFilePath": "C:\\APIDAVISBACKEND\\ApiDavis\\ApiDavis.Core\\ApiDavis.Core.csproj",
   "expectedPackageFiles": [
@@ -40,6 +40,7 @@
     "C:\\Users\\cpare\\.nuget\\packages\\microsoft.netcore.platforms\\3.1.0\\microsoft.netcore.platforms.3.1.0.nupkg.sha512",
     "C:\\Users\\cpare\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\cpare\\.nuget\\packages\\razorengine.netcore\\3.1.0\\razorengine.netcore.3.1.0.nupkg.sha512",
+    "C:\\Users\\cpare\\.nuget\\packages\\serilog\\2.11.0\\serilog.2.11.0.nupkg.sha512",
     "C:\\Users\\cpare\\.nuget\\packages\\system.buffers\\4.5.0\\system.buffers.4.5.0.nupkg.sha512",
     "C:\\Users\\cpare\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\cpare\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",

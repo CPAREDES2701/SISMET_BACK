@@ -3,10 +3,12 @@ using ApiDavis.Core.Entities;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using RazorEngine;
 using RazorEngine.Templating;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -26,11 +28,12 @@ namespace ApiDavis.Core.Utilidades
         private const string VIKey = "@1B2c3D4e5F6g7H8";
         private const int KeySize = 128;
         private readonly string _pathRoot;
-
-        public HashService(IServiceProvider serviceProvider)
+        private readonly IConfiguration configuration;
+        public HashService(IServiceProvider serviceProvider, IServiceScopeFactory factory)
         {
             var env = serviceProvider.GetService<IHostingEnvironment>();
             _pathRoot = $"{env.ContentRootPath}{Constantes.PathFinanciamientoTemplate}";
+            configuration = factory.CreateScope().ServiceProvider.GetRequiredService<IConfiguration>();
         }
 
         public  string Encriptar(string plainText)
@@ -81,12 +84,13 @@ namespace ApiDavis.Core.Utilidades
             return System.Text.Encoding.UTF8.GetString(plainTextBytes, 0, decryptedByteCount).TrimEnd("\0".ToCharArray());
         }
 
-        public async Task EnviarCorreoAsync<T>(EmailData<T> obj, RecuperarClaveEmail message)
+        public async Task EnviarCorreoAsync<T>(EmailData<T> obj, RecuperarClaveEmail message,string templateKey)
         {
+            string smtp = configuration.GetSection("EmailSettings").GetSection("CorreoEnvio").Value;
             string ruta = "";
             ruta = $@"{_pathRoot}{obj.HtmlTemplateName}";
             string html = System.IO.File.ReadAllText(ruta);
-            string body = Engine.Razor.RunCompile(html, $"templateKey_", typeof(T), message);
+            string body = Engine.Razor.RunCompile(html, $"{templateKey}", typeof(T), message);
             string correoDestino = string.Join(',', obj.EmailList);
             string correoSend = "cesargpq@gmail.com";
             string clave = "cuxhvzvmdulchxtq";
@@ -98,7 +102,6 @@ namespace ApiDavis.Core.Utilidades
             mail.Subject = "Test";
             mail.Body = body;
             mail.IsBodyHtml = true;
-            //mail.BodyEncoding = Encoding.UTF8;
             SmtpServer.Port = 587;
             SmtpServer.Credentials = new System.Net.NetworkCredential(correoSend, clave);
             SmtpServer.EnableSsl = true;
@@ -117,7 +120,7 @@ namespace ApiDavis.Core.Utilidades
          
             var llave = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("ASK9DASDASJD9ASJD9ASJDA9SJDAS9JDAS9JDA9SJD9ASJDAS9JDAS9DJAS9JDAS9DJAS9DJAS9DJAS9DAJS"));
             var creds = new SigningCredentials(llave, SecurityAlgorithms.HmacSha256);
-            var expiracion = DateTime.UtcNow.AddYears(1);
+            var expiracion = DateTime.UtcNow.AddMinutes(120);
 
             var securityToken = new JwtSecurityToken(issuer: null, audience: null, claims: claims,
                 expires: expiracion, signingCredentials: creds);
@@ -127,8 +130,20 @@ namespace ApiDavis.Core.Utilidades
                 AuthToken = new JwtSecurityTokenHandler().WriteToken(securityToken),
                 ExpireIn = expiracion,
                 Message=""
-
             };
+        }
+        public void log(string cadena)
+        {
+            var fileName = $@"Logs\Log-Davis-{DateTime.Now.ToString("ddMMyyyy")}.txt";
+            
+            FileStream fs = new FileStream(fileName, FileMode.Append);
+            byte[] data = System.Text.Encoding.Default.GetBytes("\r\n" + cadena);
+
+            fs.Write(data);
+            fs.Close();
+
+
+            Console.WriteLine("done");
         }
     }
 }

@@ -56,12 +56,6 @@ namespace ApiDavis.Controllers
             return new OkObjectResult(new JsonResult(jwtToken));
         }
 
-        [HttpPost]
-        public async Task<ActionResult> RecuperarContraseña([FromBody] RecuperarContrasenaDTO recuperar)
-        {
-
-            var resultado = seguridadRepository.RecuperarContraseña(recuperar);
-            return Ok();
-        }
+        
     }
 }
