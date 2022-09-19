@@ -214,8 +214,26 @@ namespace ApiDavis.Infraestructure.Repositories
                 {
                     var sorted = dataAgrupada.OrderByDescending(da => da.fecha).ToArray();
 
-                    var objecto = sorted.Where(x => Convert.ToDouble(x.temp_c) <= 20).GroupBy(x => x.fecha.Date).Select(g => g.ToList()).ToList();
+                    var objecto = sorted.Where(x => Convert.ToDouble(x.temp_c) <= 7).GroupBy(x => x.fecha.Date).Select(g => g.ToList()).ToList();
 
+                    if(objecto.Count ==0){
+                        
+                            var histogramas = new List<HistogramTable>();
+                            for (int i = 0; i < arregloDates.Count(); i++)
+                            {
+                                string fecha = arregloDates.ElementAt(i);
+                                HistogramTable objeto = new HistogramTable();
+                                objeto.fecha = fecha;
+                                objeto.horas = 0;
+                                histogramas.Add(objeto);
+
+                            }
+                            responseCalculo.HistogramTable = histogramas;
+                            responseCalculo.valor = "No se registraron horas frío"; ;
+                            responseCalculo.valid = true;
+                            return responseCalculo;
+                       
+                    }
                     var histograma = new List<HistogramTable>();
 
                     var fechas = objecto.ElementAt(0).ElementAt(0).fecha;

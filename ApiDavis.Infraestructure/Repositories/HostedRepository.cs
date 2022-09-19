@@ -41,18 +41,18 @@ namespace ApiDavis.Infraestructure.Repositories
         {
             var data = await _context.Estacion.ToListAsync();
             string fecha = DateTime.Now.Minute.ToString();
-            string fecha2 = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            string fecha2 = DateTime.Now.AddSeconds(-DateTime.Now.Second).ToString("yyyy-MM-dd HH:mm:ss");
      
             Console.WriteLine(fecha2);
 
-            //if (fecha.EndsWith("15") || fecha.EndsWith("0") || fecha.EndsWith("30") || fecha.EndsWith("45"))
-            //{
-                //if (fecha.EndsWith("0"))
-                //{
-                //    fecha2 = Convert.ToDateTime(fecha2).AddMinutes(-1).ToString();
-                //}
-              
-               
+            if (fecha.EndsWith("15") || fecha.EndsWith("59") || fecha.EndsWith("30") || fecha.EndsWith("45"))
+            {
+                if (fecha.EndsWith("59"))
+                {
+                    fecha2= DateTime.Now.AddSeconds(-DateTime.Now.Second).AddMinutes(+1).ToString("yyyy-MM-dd HH:mm:ss");
+                }
+
+
                 List<ClientInfo> lista = new List<ClientInfo>();
                 foreach (var item in data)
                 {
@@ -60,7 +60,7 @@ namespace ApiDavis.Infraestructure.Repositories
                     client.clave = item.Clave;
                     client.usuario = item.Usuario;
                     client.token = item.Token;
-                    client.zona = item.EmpresaId;
+                    client.zona = item.Id;
                     lista.Add(client);
                 }
                 Stopwatch stopwatch = new Stopwatch();
@@ -74,7 +74,7 @@ namespace ApiDavis.Infraestructure.Repositories
                 });
                 Console.WriteLine($"Tiempo Final:{stopwatch.Elapsed.Seconds.ToString()}");
                 Console.WriteLine($"peticiones Final:{contador}");
-            //}
+            }
         }
         public async void data(object obj)
         {
