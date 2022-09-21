@@ -108,6 +108,30 @@ namespace ApiDavis.Core.Utilidades
             SmtpServer.Send(mail);
         }
 
+        public async Task EnviarCorreoReporteAsync<T>(EmailData<T> obj, ListaReporte message, string templateKey)
+        {
+            string smtp = configuration.GetSection("EmailSettings").GetSection("CorreoEnvio").Value;
+            string ruta = "";
+            ruta = $@"{_pathRoot}{obj.HtmlTemplateName}";
+            string html = System.IO.File.ReadAllText(ruta);
+            string body = Engine.Razor.RunCompile(html, $"{templateKey}", typeof(T), message);
+            string correoDestino = string.Join(',', obj.EmailList);
+            string correoSend = "cesargpq@gmail.com";
+            string clave = "cuxhvzvmdulchxtq";
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com", 587);
+            mail.From = new System.Net.Mail.MailAddress(correoSend);
+            mail.To.Add(correoDestino);
+
+            mail.Subject = "Test";
+            mail.Body = body;
+            mail.IsBodyHtml = true;
+            SmtpServer.Port = 587;
+            SmtpServer.Credentials = new System.Net.NetworkCredential(correoSend, clave);
+            SmtpServer.EnableSsl = true;
+            SmtpServer.Send(mail);
+        }
+
         public async Task<JwtResponse> ConstruirToken(Usuario credencialesUsuario)
         {
             var claims = new List<Claim>()

@@ -391,7 +391,11 @@ namespace ApiDavis.Infraestructure.Repositories
                         List<DataDavisEntiti> PrimeraEstacion = new List<DataDavisEntiti>();
                         foreach (var davis in dataFirst)
                         {
-                            promedio += Convert.ToDecimal(davis.temp_c);
+                            if (davis.temp_c != "")
+                            {
+                                promedio += Convert.ToDecimal(davis.temp_c);
+                            }
+                            
                             PrimeraEstacion.Add(davis);
                         }
                         obj.promedioTempEstacion = Convert.ToString(Math.Round(promedio / dataFirst.Count(), 4));
@@ -410,7 +414,10 @@ namespace ApiDavis.Infraestructure.Repositories
                         List<DataDavisEntiti> SegundaEstacion = new List<DataDavisEntiti>();
                         foreach (var davis in dataSecond)
                         {
-                            promedioSecond += Convert.ToDecimal(davis.temp_c);
+                            if (davis.temp_c != "")
+                            {
+                                promedioSecond += Convert.ToDecimal(davis.temp_c);
+                            }
                             SegundaEstacion.Add(davis);
                         }
                         obj.promedioTempSegundaEstacion = Convert.ToString(Math.Round(promedioSecond / dataSecond.Count(), 4));

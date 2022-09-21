@@ -19,13 +19,16 @@ namespace ApiDavis.Infraestructure.Repositories
     public class HostedRepository : IHostedService, IDisposable
     {
         Timer _timer;
+        Timer _timer2;
         private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context2;
         private readonly IConfiguration configuration;
         private readonly HashService hashService;
 
         public HostedRepository(IServiceScopeFactory factory, HashService hashService)
         {
             _context = factory.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            _context2 = factory.CreateScope().ServiceProvider.GetRequiredService<ApplicationDbContext>();
             configuration = factory.CreateScope().ServiceProvider.GetRequiredService<IConfiguration>();
             this.hashService = hashService;
         }
@@ -33,7 +36,7 @@ namespace ApiDavis.Infraestructure.Repositories
         {
             
             _timer = new Timer(GuardarData, null , TimeSpan.Zero,TimeSpan.FromMinutes(1));
-            //_timer = new Timer(data, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
+            _timer2 = new Timer(data, null, TimeSpan.Zero, TimeSpan.FromMinutes(1));
 
             return Task.CompletedTask;
         }
@@ -76,18 +79,55 @@ namespace ApiDavis.Infraestructure.Repositories
                 Console.WriteLine($"peticiones Final:{contador}");
             }
         }
-        public async void data(object obj)
+        public  void data(object obj)
         {
-            await Informar();
+            string fecha = DateTime.Now.Minute.ToString();
+            if (fecha.EndsWith("59"))
+            {
+                Informar();
+            }
+            
         }
         public async Task Informar()
         {
-            var datas = DateTime.Now.ToString("yyyy/MM-dd");
-            var datass = await _context.Estacion.ToListAsync();
-            var data = await _context.DataDavis.Where(x => x.EstacionId == 9 && x.fecha.ToString().Contains("2022-08-23")).ToListAsync();
+            var datas = DateTime.Now.ToString("yyyy-MM-dd");
+            var fechaCorreo = DateTime.Now.ToString("dd-MM-yyyy");
+            var estaciones =  _context2.Estacion.ToList();
+            string correo = configuration.GetSection("EmailSettings").GetSection("Davis").Value;
+            ListaReporte lista = new ListaReporte();
+            List<ReporteInformacion> listaN = new List<ReporteInformacion>();
+            for (int i = 0; i < estaciones.Count; i++)
+            {
+                var data = _context2.DataDavis.Where(x => x.EstacionId == estaciones.ElementAt(i).Id && x.fecha.ToString().Contains("2022-09-21")).ToList();
+                if(data.Count != 96)
+                {
+                    ReporteInformacion message = new ReporteInformacion();
+                    message.EstacionNombre = estaciones.ElementAt(i).NombreEstacion;
+                    message.fecha = datas;
+                    listaN.Add(message);
+                   
+                }
+            }
+            lista.fecha = fechaCorreo;
+            lista.DetalleList = listaN;
+
+            if (lista.DetalleList.Count>0)
+            {
+                List<string> correos = new List<string>();
+                correos.Add(correo);
+               
+                string templateKey = "templateKey_Reporte";
+                var obj = new EmailData<ListaReporte>
+                {
+                    EmailType = 2,
+                    EmailList = correos,
+                    Model = lista,
+                    HtmlTemplateName = Constantes.Reporte
+                };
+                await hashService.EnviarCorreoReporteAsync(obj, lista, templateKey);
+            }
             
 
-            Console.WriteLine(data);
         }
         public async Task TraerData(ClientInfo objeto, string fecha)
         {
