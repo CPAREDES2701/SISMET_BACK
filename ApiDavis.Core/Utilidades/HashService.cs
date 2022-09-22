@@ -87,13 +87,14 @@ namespace ApiDavis.Core.Utilidades
         public async Task EnviarCorreoAsync<T>(EmailData<T> obj, RecuperarClaveEmail message,string templateKey)
         {
             string smtp = configuration.GetSection("EmailSettings").GetSection("CorreoEnvio").Value;
+            string key = configuration.GetSection("EmailSettings").GetSection("Key").Value;
             string ruta = "";
             ruta = $@"{_pathRoot}{obj.HtmlTemplateName}";
             string html = System.IO.File.ReadAllText(ruta);
             string body = Engine.Razor.RunCompile(html, $"{templateKey}", typeof(T), message);
             string correoDestino = string.Join(',', obj.EmailList);
-            string correoSend = "cesargpq@gmail.com";
-            string clave = "cuxhvzvmdulchxtq";
+            string correoSend = smtp;
+            string clave = key;
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com", 587);
             mail.From = new System.Net.Mail.MailAddress(correoSend);
@@ -110,14 +111,16 @@ namespace ApiDavis.Core.Utilidades
 
         public async Task EnviarCorreoReporteAsync<T>(EmailData<T> obj, ListaReporte message, string templateKey)
         {
+
             string smtp = configuration.GetSection("EmailSettings").GetSection("CorreoEnvio").Value;
+            string key = configuration.GetSection("EmailSettings").GetSection("Key").Value;
             string ruta = "";
             ruta = $@"{_pathRoot}{obj.HtmlTemplateName}";
             string html = System.IO.File.ReadAllText(ruta);
             string body = Engine.Razor.RunCompile(html, $"{templateKey}", typeof(T), message);
             string correoDestino = string.Join(',', obj.EmailList);
-            string correoSend = "cesargpq@gmail.com";
-            string clave = "cuxhvzvmdulchxtq";
+            string correoSend = smtp;
+            string clave = key;
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com", 587);
             mail.From = new System.Net.Mail.MailAddress(correoSend);

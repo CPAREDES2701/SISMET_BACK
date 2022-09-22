@@ -1,91 +1,19 @@
 
 ---------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Fin de loggin
----------------------------------------------
----------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Fin de loggin
----------------------------------------------
----------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Fin de loggin
----------------------------------------------
----------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Fin de loggin
----------------------------------------------
----------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Fin de loggin
----------------------------------------------
----------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Fin de loggin
----------------------------------------------
----------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Fin de loggin
----------------------------------------------
----------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Fin de loggin
----------------------------------------------
----------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Fin de loggin
----------------------------------------------
----------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Fin de loggin
----------------------------------------------
----------------------------------------------
-Inicio de loggin
----------------------------------------------
----------------------------------------------
-Fin de loggin
 ---------------------------------------------
 ---------------------------------------------
 'I' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+'I' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+'I' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+---------------------------------------------
+---------------------------------------------
 ---------------------------------------------
    at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, JsonReaderException ex)
    at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
    at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo jsonTypeInfo, Nullable`1 actualByteCount)
    at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo jsonTypeInfo)
    at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
-   at ApiDavis.Infraestructure.Repositories.HostedRepository.TraerData(ClientInfo objeto, String fecha)
+   at ApiDavis.Infraestructure.Repositories.HostedRepository.TraerData(ClientInfo objeto, String fecha) in C:\APIBACKENDPRD_FINAL\SISMET_BACK\ApiDavis.Infraestructure\Repositories\HostedRepository.cs:line 143
 ---------------------------------------------
 System.Text.Json.JsonReaderException: 'I' is an invalid start of a value. LineNumber: 0 | BytePositionInLine: 0.
    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
@@ -98,12 +26,36 @@ System.Text.Json.JsonReaderException: 'I' is an invalid start of a value. LineNu
 ---------------------------------------------
 'I' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
 ---------------------------------------------
+---------------------------------------------
+---------------------------------------------
+'I' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+---------------------------------------------
    at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, JsonReaderException ex)
    at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
    at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo jsonTypeInfo, Nullable`1 actualByteCount)
    at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo jsonTypeInfo)
    at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
-   at ApiDavis.Infraestructure.Repositories.HostedRepository.TraerData(ClientInfo objeto, String fecha)
+   at ApiDavis.Infraestructure.Repositories.HostedRepository.TraerData(ClientInfo objeto, String fecha) in C:\APIBACKENDPRD_FINAL\SISMET_BACK\ApiDavis.Infraestructure\Repositories\HostedRepository.cs:line 143
+---------------------------------------------
+System.Text.Json.JsonReaderException: 'I' is an invalid start of a value. LineNumber: 0 | BytePositionInLine: 0.
+   at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)
+   at System.Text.Json.Utf8JsonReader.ConsumeValue(Byte marker)
+   at System.Text.Json.Utf8JsonReader.ReadFirstToken(Byte first)
+   at System.Text.Json.Utf8JsonReader.ReadSingleSegment()
+   at System.Text.Json.Utf8JsonReader.Read()
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+---------------------------------------------
+---------------------------------------------
+---------------------------------------------
+'I' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+'I' is an invalid start of a value. Path: $ | LineNumber: 0 | BytePositionInLine: 0.
+---------------------------------------------
+   at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack& state, JsonReaderException ex)
+   at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo jsonTypeInfo, Nullable`1 actualByteCount)
+   at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo jsonTypeInfo)
+   at System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonSerializerOptions options)
+   at ApiDavis.Infraestructure.Repositories.HostedRepository.TraerData(ClientInfo objeto, String fecha) in C:\APIBACKENDPRD_FINAL\SISMET_BACK\ApiDavis.Infraestructure\Repositories\HostedRepository.cs:line 143
 ---------------------------------------------
 System.Text.Json.JsonReaderException: 'I' is an invalid start of a value. LineNumber: 0 | BytePositionInLine: 0.
    at System.Text.Json.ThrowHelper.ThrowJsonReaderException(Utf8JsonReader& json, ExceptionResource resource, Byte nextByte, ReadOnlySpan`1 bytes)

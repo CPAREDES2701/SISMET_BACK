@@ -86,19 +86,21 @@ namespace ApiDavis.Infraestructure.Repositories
             {
                 Informar();
             }
-            
+            Informar();
         }
         public async Task Informar()
         {
             var datas = DateTime.Now.ToString("yyyy-MM-dd");
             var fechaCorreo = DateTime.Now.ToString("dd-MM-yyyy");
             var estaciones =  _context2.Estacion.ToList();
-            string correo = configuration.GetSection("EmailSettings").GetSection("Davis").Value;
+            
+            var correo = configuration.GetSection("DavisDestino").GetChildren().Select(c=> c.Value).ToArray();
+           
             ListaReporte lista = new ListaReporte();
             List<ReporteInformacion> listaN = new List<ReporteInformacion>();
             for (int i = 0; i < estaciones.Count; i++)
             {
-                var data = _context2.DataDavis.Where(x => x.EstacionId == estaciones.ElementAt(i).Id && x.fecha.ToString().Contains("2022-09-21")).ToList();
+                var data = _context2.DataDavis.Where(x => x.EstacionId == estaciones.ElementAt(i).Id && x.fecha.ToString().Contains(datas)).ToList();
                 if(data.Count != 96)
                 {
                     ReporteInformacion message = new ReporteInformacion();
@@ -114,8 +116,11 @@ namespace ApiDavis.Infraestructure.Repositories
             if (lista.DetalleList.Count>0)
             {
                 List<string> correos = new List<string>();
-                correos.Add(correo);
-               
+                for (int i = 0; i < correo.Length; i++)
+                {
+                    correos.Add(correo.ElementAt(i));
+                }
+
                 string templateKey = "templateKey_Reporte";
                 var obj = new EmailData<ListaReporte>
                 {
