@@ -86,7 +86,6 @@ namespace ApiDavis.Infraestructure.Repositories
             {
                 Informar();
             }
-            Informar();
         }
         public async Task Informar()
         {
