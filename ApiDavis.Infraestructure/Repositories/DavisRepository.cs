@@ -335,9 +335,7 @@ namespace ApiDavis.Infraestructure.Repositories
                 root.davis_current_observation.rain_day_in = Convert.ToString(Math.Round((Convert.ToDouble(root.davis_current_observation.rain_day_in) * 25.4), 4));
                 root.davis_current_observation.rain_month_in = Convert.ToString(Math.Round((Convert.ToDouble(root.davis_current_observation.rain_month_in) * 25.4), 4));
                 root.davis_current_observation.rain_year_in = Convert.ToString(Math.Round((Convert.ToDouble(root.davis_current_observation.rain_year_in) * 25.4), 4));
-                Console.WriteLine(root.davis_current_observation.temp_day_high_f);
-                Console.WriteLine(root.davis_current_observation.temp_day_low_f);
-                Console.WriteLine();
+               
                 root.davis_current_observation.temp_day_high_f = Convert.ToString(Math.Round((Convert.ToDouble(root.davis_current_observation.temp_day_high_f) - 32) * 5 / 9, 4));
                 root.davis_current_observation.temp_day_low_f = Convert.ToString(Math.Round((Convert.ToDouble(root.davis_current_observation.temp_day_low_f) - 32) * 5 / 9, 4));
 

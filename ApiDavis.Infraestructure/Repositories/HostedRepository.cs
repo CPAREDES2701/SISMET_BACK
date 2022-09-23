@@ -45,8 +45,6 @@ namespace ApiDavis.Infraestructure.Repositories
             var data = await _context.Estacion.ToListAsync();
             string fecha = DateTime.Now.Minute.ToString();
             string fecha2 = DateTime.Now.AddSeconds(-DateTime.Now.Second).ToString("yyyy-MM-dd HH:mm:ss");
-     
-            Console.WriteLine(fecha2);
 
             if (fecha.EndsWith("15") || fecha.EndsWith("59") || fecha.EndsWith("30") || fecha.EndsWith("45"))
             {
@@ -75,8 +73,6 @@ namespace ApiDavis.Infraestructure.Repositories
                     await TraerData(listas, fecha2);
                     contador++;
                 });
-                Console.WriteLine($"Tiempo Final:{stopwatch.Elapsed.Seconds.ToString()}");
-                Console.WriteLine($"peticiones Final:{contador}");
             }
         }
         public  void data(object obj)
@@ -147,7 +143,6 @@ namespace ApiDavis.Infraestructure.Repositories
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
                 DavisRoot root = JsonSerializer.Deserialize<DavisRoot>(responseBody);
-                Console.WriteLine(root.dewpoint_c + "___" + root.location + "___" + objeto.zona);
                 conn.Open();
                 double temp_high = Convert.ToDouble(root.davis_current_observation.temp_day_high_f);
                 temp_high = (temp_high - 32)*5/9;
@@ -168,6 +163,13 @@ namespace ApiDavis.Infraestructure.Repositories
             }
             catch (Exception ex)
             {
+                hashService.log("---------------------------------------------");
+                hashService.log(ex.Message);
+                hashService.log("---------------------------------------------");
+                hashService.log(ex.StackTrace);
+                hashService.log("---------------------------------------------");
+                hashService.log(ex.InnerException.ToString());
+                hashService.log("---------------------------------------------");
             }
 
             conn.Close();

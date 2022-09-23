@@ -169,8 +169,6 @@ namespace ApiDavis.Core.Utilidades
             fs.Write(data);
             fs.Close();
 
-
-            Console.WriteLine("done");
         }
     }
 }
