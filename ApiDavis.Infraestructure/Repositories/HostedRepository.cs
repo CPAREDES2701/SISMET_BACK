@@ -81,11 +81,13 @@ namespace ApiDavis.Infraestructure.Repositories
         }
         public  void data(object obj)
         {
-            string fecha = DateTime.Now.Minute.ToString();
-            if (fecha.EndsWith("59"))
+            string minute = DateTime.Now.Minute.ToString();
+            string hora = DateTime.Now.Hour.ToString();
+            if (hora.Equals("23") && minute.EndsWith("59"))
             {
                 Informar();
             }
+         
         }
         public async Task Informar()
         {
@@ -166,13 +168,6 @@ namespace ApiDavis.Infraestructure.Repositories
             }
             catch (Exception ex)
             {
-                hashService.log("---------------------------------------------");
-                hashService.log(ex.Message);
-                hashService.log("---------------------------------------------");
-                hashService.log(ex.StackTrace);
-                hashService.log("---------------------------------------------");
-                hashService.log(ex.InnerException.ToString());
-                hashService.log("---------------------------------------------");
             }
 
             conn.Close();
