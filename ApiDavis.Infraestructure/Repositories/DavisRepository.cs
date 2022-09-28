@@ -5,8 +5,10 @@ using ApiDavis.Core.Interfaces;
 using ApiDavis.Core.Utilidades;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -28,6 +30,58 @@ namespace ApiDavis.Infraestructure.Repositories
             this.hashService = hashService;
         }
 
+        public async Task<List<InduccionFloral>> GetInduccionFloral2(int idEstacion)
+        {
+            List<InduccionFloral> induccion = new List<InduccionFloral>();
+            EstacionMaestro obj = new EstacionMaestro();
+             var estacionMaestra = await _context.EstacionMaestro.Where(x => x.EstacionId == idEstacion).ToListAsync();
+                obj.mesInicio = estacionMaestra.ElementAt(0).mesInicio;
+                obj.mesFin = estacionMaestra.ElementAt(0).mesFin;
+                obj.temperatura = estacionMaestra.ElementAt(0).temperatura;
+
+            var connectionString = hashService.conection();
+            
+
+            for (int j = obj.mesInicio; j <= obj.mesFin; j++)
+            {
+                InduccionFloral objetoMes = new InduccionFloral();
+                var anio = DateTime.Now.Year.ToString();
+
+
+                string fechaIni = Constantes.retornarFechaIni(j);
+                string fechaFin = Constantes.retornarFechaFin(j);
+                using (var connection = new MySqlConnection(connectionString))
+                {
+                    MySqlCommand command = connection.CreateCommand();
+                    command.CommandText = @"with  primera as(
+	                select CONVERT(fecha,char(10)) as fecha, substring(CONVERT(fecha,char(20)),12,8)  as hora, temp_day_high_F ,temp_day_low_f 
+	                from datadavis where Date(fecha) between '" + fechaIni + @"' and '" + fechaFin + @"'  AND estacionId = 1
+	                ),
+	                segunda as(
+	                SELECT MAX(a.FECHA) AS FECHA , MAX(b.hora) AS HORA,round(sum(a.temp_day_high_F)/count(1),3) as temp_max,round(sum(a.temp_day_high_F)/count(1),3) as temp_min
+	                from primera a left join grupotiempo b
+	                on a.hora=b.hora
+	                group by fecha,grupo
+	                ), tercera as(
+                    SELECT FECHA,HORA, CASE WHEN ((TEMP_MAX+TEMP_MIN)/2)-10 >0 THEN ((TEMP_MAX+TEMP_MIN)/2)-10 ELSE 0 END as suma FROM SEGUNDA
+                    ) SELECT ROUND(SUM(SUMA)/COUNT(SUMA),2) AS TOTAL fROM TERCERA";
+                    connection.Open();
+                    MySqlDataReader result = command.ExecuteReader();
+                    string resultado="";
+                    while (result.Read())
+                    {
+                        resultado = result["TOTAL"].ToString();
+                        objetoMes.mes = Constantes.meses[j - 1];
+                        objetoMes.valor = resultado == "" ? 0 : Convert.ToDouble(resultado);
+
+                        induccion.Add(objetoMes);
+                    }
+
+                    result.Close();
+                }
+            }
+            return induccion;
+        }
         public async Task<List<InduccionFloral>> GetInduccionFloral(int idEstacion)
         {
             try
@@ -47,8 +101,8 @@ namespace ApiDavis.Infraestructure.Repositories
                     DateTime agostoIni = Convert.ToDateTime(anio + Constantes.AgostoIni);
                     DateTime agostoFin = Convert.ToDateTime(anio + Constantes.AgostoFin);
 
-                    agostoIni = Constantes.retornarFechaIni(j);
-                    agostoFin = Constantes.retornarFechaFin(j);
+                    //agostoIni = Constantes.retornarFechaIni(j);
+                    //agostoFin = Constantes.retornarFechaFin(j);
 
                     agostoFin = agostoFin.AddDays(1).AddSeconds(-1);
                     var dataAgruppada = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && (x.fecha >= agostoIni && x.fecha <= agostoFin.AddDays(1).AddSeconds(-1))).ToListAsync();
@@ -382,7 +436,7 @@ namespace ApiDavis.Infraestructure.Repositories
                 {
                     var queryable = _context.DataDavis.Where(x => x.EstacionId == dto.idPrimeraEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).AsQueryable();
                     double cantidad = await queryable.CountAsync();
-                    var dataFirst = await queryable.OrderBy(data => data.fecha).PaginarEstacion(dto).ToListAsync();
+                    var dataFirst = await queryable.OrderByDescending(data => data.fecha).PaginarEstacion(dto).ToListAsync();
 
                     if (dataFirst.Count > 0)
                     {
@@ -406,7 +460,7 @@ namespace ApiDavis.Infraestructure.Repositories
                 {
                     var queryable = _context.DataDavis.Where(x => x.EstacionId == dto.idSegundaEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).AsQueryable();
                     double cantidad = await queryable.CountAsync();
-                    var dataSecond = await queryable.OrderBy(data => data.fecha).PaginarEstacion(dto).ToListAsync();
+                    var dataSecond = await queryable.OrderByDescending(data => data.fecha).PaginarEstacion(dto).ToListAsync();
                     if (dataSecond.Count > 0)
                     {
                         List<DataDavisEntiti> SegundaEstacion = new List<DataDavisEntiti>();
@@ -466,7 +520,7 @@ namespace ApiDavis.Infraestructure.Repositories
                 decimal promedioSecond = 0;
                 if (dto.idPrimeraEstacion != 0)
                 {
-                    var dataFirst = await _context.DataDavis.Where(x => x.EstacionId == dto.idPrimeraEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).ToListAsync();
+                    var dataFirst = await _context.DataDavis.Where(x => x.EstacionId == dto.idPrimeraEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).OrderByDescending(x=>x.fecha).ToListAsync();
                     if (dataFirst.Count > 0)
                     {
                         List<DataDavisEntiti> PrimeraEstacion = new List<DataDavisEntiti>();
@@ -482,7 +536,7 @@ namespace ApiDavis.Infraestructure.Repositories
                 }
                 if (dto.idSegundaEstacion != 0)
                 {
-                    var dataSecond = await _context.DataDavis.Where(x => x.EstacionId == dto.idSegundaEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).ToListAsync();
+                    var dataSecond = await _context.DataDavis.Where(x => x.EstacionId == dto.idSegundaEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).OrderByDescending(x => x.fecha).ToListAsync();
                     if (dataSecond.Count > 0)
                     {
                         List<DataDavisEntiti> SegundaEstacion = new List<DataDavisEntiti>();

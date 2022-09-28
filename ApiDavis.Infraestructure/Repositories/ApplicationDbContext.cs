@@ -10,11 +10,17 @@ using System.Threading.Tasks;
 namespace ApiDavis.Infraestructure.Repositories
 {
     public class ApplicationDbContext: DbContext
-    {
+    {        
         public ApplicationDbContext(DbContextOptions options):base (options)
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Floral>().HasNoKey();
+        }
+
+        public DbSet<Floral> Floral { get; set; }
         public DbSet<Rol> Rol { get; set; }
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Empresa> Empresa { get; set; }

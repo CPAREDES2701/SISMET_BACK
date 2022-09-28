@@ -22,48 +22,49 @@ namespace ApiDavis.Core.Utilidades
         public const string NoviembreFin = "-11-30";
         public static readonly string[] meses = { "Enero","Febrero","Marzo","Abril","Mayo", "Junio", "Julio", "Agosto", "Setiembre", "Octubre", "Noviembre", "Diciembre" };
 
-
-        public static DateTime retornarFechaIni(int number)
+        
+        
+        public static string retornarFechaIni(int number)
         {
-            DateTime retornarFecha = new DateTime();
+            string retornarFecha = "";
             var anio = DateTime.Now.Year.ToString();
             if (number == 8)
             {
-                retornarFecha = Convert.ToDateTime(anio + AgostoIni);
+                retornarFecha = anio + AgostoIni;
             }
             if (number == 9)
             {
-                retornarFecha = Convert.ToDateTime(anio + SetiembreIni);
+                retornarFecha = anio + SetiembreIni;
             }
             if (number == 10)
             {
-                retornarFecha = Convert.ToDateTime(anio + OctubreIni);
+                retornarFecha = anio + OctubreIni;
             }
             if (number == 11)
             {
-                retornarFecha = Convert.ToDateTime(anio + NoviembreIni);
+                retornarFecha = anio + NoviembreIni;
             }
             return retornarFecha;
         }
-        public static DateTime retornarFechaFin(int number)
+        public static string retornarFechaFin(int number)
         {
-            DateTime retornarFecha = new DateTime();
+            string retornarFecha = "";
             var anio = DateTime.Now.Year.ToString();
             if (number == 8)
             {
-                retornarFecha = Convert.ToDateTime(anio + AgostoFin);
+                retornarFecha = anio + AgostoFin;
             }
             if (number == 9)
             {
-                retornarFecha = Convert.ToDateTime(anio + SetiembreFin);
+                retornarFecha =anio + SetiembreFin;
             }
             if (number == 10)
             {
-                retornarFecha = Convert.ToDateTime(anio + OctubreFin);
+                retornarFecha = anio + OctubreFin;
             }
             if (number == 11)
             {
-                retornarFecha = Convert.ToDateTime(anio + NoviembreIni);
+                retornarFecha = anio + NoviembreIni;
             }
             return retornarFecha;
         }
