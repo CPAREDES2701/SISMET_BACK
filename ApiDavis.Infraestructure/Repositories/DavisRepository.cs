@@ -52,27 +52,20 @@ namespace ApiDavis.Infraestructure.Repositories
                 string fechaFin = Constantes.retornarFechaFin(j);
                 using (var connection = new MySqlConnection(connectionString))
                 {
-                    MySqlCommand command = connection.CreateCommand();
-                    command.CommandText = @"with  primera as(
-	                select CONVERT(fecha,char(10)) as fecha, substring(CONVERT(fecha,char(20)),12,8)  as hora, temp_day_high_F ,temp_day_low_f 
-	                from datadavis where Date(fecha) between '" + fechaIni + @"' and '" + fechaFin + @"'  AND estacionId ="+idEstacion+ @"),
-	                segunda as(
-	                SELECT MAX(a.FECHA) AS FECHA , MAX(b.hora) AS HORA,round(sum(a.temp_day_high_F)/count(1),3) as temp_max,round(sum(a.temp_day_high_F)/count(1),3) as temp_min
-	                from primera a left join grupotiempo b
-	                on a.hora=b.hora
-	                group by fecha,grupo
-	                ), tercera as(
-                    SELECT FECHA,HORA, CASE WHEN ((TEMP_MAX+TEMP_MIN)/2)-10 >0 THEN ((TEMP_MAX+TEMP_MIN)/2)-10 ELSE 0 END as suma FROM SEGUNDA
-                    ) SELECT ROUND(SUM(SUMA)/COUNT(SUMA),2) AS TOTAL fROM TERCERA";
+                    MySqlCommand command = new MySqlCommand("calc", connection);
+                    command.Parameters.AddWithValue("@idEstacion", idEstacion);
+                    command.Parameters.AddWithValue("@fechaI", fechaIni);
+                    command.Parameters.AddWithValue("@fechaF", fechaFin);
+                    command.CommandType = CommandType.StoredProcedure;
+                                       
                     connection.Open();
-                    MySqlDataReader result = command.ExecuteReader();
-                    string resultado="";
+                    var result = command.ExecuteReader();
+                    
                     while (result.Read())
                     {
-                        resultado = result["TOTAL"].ToString();
+                        var resultado = result["TOTAL"].ToString();
                         objetoMes.mes = Constantes.meses[j - 1];
                         objetoMes.valor = resultado == "" ? 0 : Convert.ToDouble(resultado);
-
                         induccion.Add(objetoMes);
                     }
 
