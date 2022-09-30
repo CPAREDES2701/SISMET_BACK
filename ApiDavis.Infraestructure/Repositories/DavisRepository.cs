@@ -55,8 +55,7 @@ namespace ApiDavis.Infraestructure.Repositories
                     MySqlCommand command = connection.CreateCommand();
                     command.CommandText = @"with  primera as(
 	                select CONVERT(fecha,char(10)) as fecha, substring(CONVERT(fecha,char(20)),12,8)  as hora, temp_day_high_F ,temp_day_low_f 
-	                from datadavis where Date(fecha) between '" + fechaIni + @"' and '" + fechaFin + @"'  AND estacionId = 1
-	                ),
+	                from datadavis where Date(fecha) between '" + fechaIni + @"' and '" + fechaFin + @"'  AND estacionId ="+idEstacion+ @"),
 	                segunda as(
 	                SELECT MAX(a.FECHA) AS FECHA , MAX(b.hora) AS HORA,round(sum(a.temp_day_high_F)/count(1),3) as temp_max,round(sum(a.temp_day_high_F)/count(1),3) as temp_min
 	                from primera a left join grupotiempo b
