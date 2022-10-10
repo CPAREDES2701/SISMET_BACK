@@ -88,7 +88,7 @@ namespace ApiDavis.Controllers
                         worksheet.Cell(currentRow, i).Style.Font.SetBold();
                         worksheet.Cell(currentRow, i).Style.Font.FontColor = XLColor.White;
                     }
-
+                    
                     worksheet.Cell(currentRow, 1).Value = "Fecha";
                     worksheet.Cell(currentRow, 2).Value = "Punto de rocío (ºC)";
                     worksheet.Cell(currentRow, 3).Value = "Presión (mb o hPa)";
@@ -111,7 +111,7 @@ namespace ApiDavis.Controllers
                     worksheet.Cell(currentRow, 20).Value = "Velocidad del viento (kt)";
                     worksheet.Cell(currentRow, 21).Value = "Velocidad del viento (m/s)";
                     worksheet.Cell(currentRow, 22).Value = "Velocidad del viento (km/h)";
-
+                    
 
 
                 if (resultado.Estacion != null)
@@ -119,6 +119,8 @@ namespace ApiDavis.Controllers
                     foreach (var item in resultado.Estacion)
                     {
                         currentRow++;
+                        
+                        worksheet.Cell(currentRow, 1).Style.DateFormat.Format = "dd/MM/yyyy hh:mm";
                         worksheet.Cell(currentRow, 1).Value = item.fecha;
                         worksheet.Cell(currentRow, 2).Value = item.dewpoint_c;
                         worksheet.Cell(currentRow, 3).Value = item.pressure_mb;

@@ -144,7 +144,7 @@ namespace ApiDavis.Infraestructure.Repositories
                 var fechaI = Convert.ToDateTime(fechaInicio);
                 var fechaF = Convert.ToDateTime(fechaFin);
                 fechaF = fechaF.AddDays(1).AddSeconds(-1);
-                var data = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).ToListAsync();
+                var data = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && Convert.ToDouble(x.solar_radiation) > 0 && (x.fecha >= fechaI && x.fecha <= fechaF )).ToListAsync();
 
                 var dates = new List<DateTime>();
                 var arregloDates = new List<string>();
@@ -154,7 +154,7 @@ namespace ApiDavis.Infraestructure.Repositories
                     arregloDates.Add(dt.Date.ToShortDateString());
                 }
 
-                var dataAgrupada = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && (x.fecha >= fechaI && x.fecha <= fechaF)).ToListAsync();
+                var dataAgrupada = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && Convert.ToDouble(x.solar_radiation) > 0 &&(x.fecha >= fechaI && x.fecha <= fechaF)).ToListAsync();
                 if (dataAgrupada.Count() > 0)
                 {
                     var sorted = dataAgrupada.OrderByDescending(da => da.fecha).ToArray();
@@ -170,7 +170,11 @@ namespace ApiDavis.Infraestructure.Repositories
                         {
                             HistogramTable objeto = new HistogramTable();
                             objeto.fecha = objecto.ElementAt(i).ElementAt(j).TheDate.ToString();
-                            objeto.horas = ((float)objecto.ElementAt(i).Count()) / (float)4;
+                            float tiempo2 = ((float)objecto.ElementAt(i).Count()) / (float)4;
+                            int valor2 = Convert.ToInt32(Math.Floor(tiempo2));
+                            string minutes2 = (tiempo2 - valor2) == 0.75 ? "45" : (tiempo2 - valor2) == 0.50 ? "30" : (tiempo2 - valor2) == 0.25 ? "15" : "0";
+                            string total = valor2.ToString() + "." + minutes2;
+                            objeto.horas = (float)Convert.ToDouble(total);
                             histograma.Add(objeto);
                         }
                     }
@@ -246,7 +250,7 @@ namespace ApiDavis.Infraestructure.Repositories
                 var fechaI = Convert.ToDateTime(fechaInicio);
                 var fechaF = Convert.ToDateTime(fechaFin);
                 fechaF = fechaF.AddDays(1).AddSeconds(-1);
-                var data = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && (x.fecha >= fechaI && x.fecha <= fechaF)).ToListAsync();
+                var data = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && Convert.ToDouble(x.temp_c)<=7 && (x.fecha >= fechaI && x.fecha <= fechaF)).ToListAsync();
                 var dates = new List<DateTime>();
                 var arregloDates = new List<string>();
                 for (var dt = fechaI; dt <= fechaF; dt = dt.AddDays(1))
@@ -255,7 +259,7 @@ namespace ApiDavis.Infraestructure.Repositories
                     arregloDates.Add(dt.Date.ToShortDateString());
                 }
 
-                var dataAgrupada = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && (x.fecha >= fechaI && x.fecha <= fechaF)).ToListAsync();
+                var dataAgrupada = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && Convert.ToDouble(x.temp_c) <= 7 && (x.fecha >= fechaI && x.fecha <= fechaF)).ToListAsync();
                 if (dataAgrupada.Count() > 0)
                 {
                     var sorted = dataAgrupada.OrderByDescending(da => da.fecha).ToArray();
@@ -290,7 +294,14 @@ namespace ApiDavis.Infraestructure.Repositories
                         {
                             HistogramTable objeto = new HistogramTable();
                             objeto.fecha = objecto.ElementAt(i).ElementAt(j).TheDate.ToString();
-                            objeto.horas = ((float)objecto.ElementAt(i).Count()) / (float)4;
+                            //objeto.horas = ((float)objecto.ElementAt(i).Count()) / (float)4;
+                            float tiempo2 = ((float)objecto.ElementAt(i).Count()) / (float)4;
+                            int valor2= Convert.ToInt32(Math.Floor(tiempo2));
+                            string minutes2 = (tiempo2 - valor2) == 0.75 ? "45" : (tiempo2 - valor2) == 0.50 ? "30" : (tiempo2 - valor2) == 0.25 ? "15" : "0";
+                            string total = valor2.ToString() + "." + minutes2;
+                            objeto.horas = (float)Convert.ToDouble(total);
+                            
+                            
                             histograma.Add(objeto);
                         }
                     }
@@ -428,7 +439,7 @@ namespace ApiDavis.Infraestructure.Repositories
                 {
                     var queryable = _context.DataDavis.Where(x => x.EstacionId == dto.idPrimeraEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).AsQueryable();
                     double cantidad = await queryable.CountAsync();
-                    var dataFirst = await queryable.OrderByDescending(data => data.fecha).PaginarEstacion(dto).ToListAsync();
+                    var dataFirst = await queryable.OrderBy(data => data.fecha).PaginarEstacion(dto).ToListAsync();
 
                     if (dataFirst.Count > 0)
                     {
@@ -452,7 +463,7 @@ namespace ApiDavis.Infraestructure.Repositories
                 {
                     var queryable = _context.DataDavis.Where(x => x.EstacionId == dto.idSegundaEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).AsQueryable();
                     double cantidad = await queryable.CountAsync();
-                    var dataSecond = await queryable.OrderByDescending(data => data.fecha).PaginarEstacion(dto).ToListAsync();
+                    var dataSecond = await queryable.OrderBy(data => data.fecha).PaginarEstacion(dto).ToListAsync();
                     if (dataSecond.Count > 0)
                     {
                         List<DataDavisEntiti> SegundaEstacion = new List<DataDavisEntiti>();
