@@ -84,9 +84,11 @@ namespace ApiDavis.Controllers
                     var currentRow = 1;
                     for(int i = 1; i <= 22; i++)
                     {
-                        worksheet.Cell(currentRow, i).Style.Fill.BackgroundColor = XLColor.FromHtml("#2ec6ff");
+                        //worksheet.Cell(currentRow, i).Style.Fill.BackgroundColor = XLColor.FromHtml("#2ec6ff");
+                        //worksheet.Cell(currentRow, i).Style.Font.SetBold();
+                        //worksheet.Cell(currentRow, i).Style.Font.FontColor = XLColor.White;
                         worksheet.Cell(currentRow, i).Style.Font.SetBold();
-                        worksheet.Cell(currentRow, i).Style.Font.FontColor = XLColor.White;
+                        worksheet.Cell(currentRow, i).Style.Font.FontColor = XLColor.Black;
                     }
                     
                     worksheet.Cell(currentRow, 1).Value = "Fecha";
@@ -152,9 +154,11 @@ namespace ApiDavis.Controllers
                     var currentRow2 = 1;
                     for (int i = 1; i <= 22; i++)
                     {
-                        worksheet2.Cell(currentRow2, i).Style.Fill.BackgroundColor = XLColor.FromHtml("#2ec6ff");
+                        //worksheet.Cell(currentRow, i).Style.Fill.BackgroundColor = XLColor.FromHtml("#2ec6ff");
+                        //worksheet.Cell(currentRow, i).Style.Font.SetBold();
+                        //worksheet.Cell(currentRow, i).Style.Font.FontColor = XLColor.White;
                         worksheet.Cell(currentRow, i).Style.Font.SetBold();
-                        worksheet2.Cell(currentRow2, i).Style.Font.FontColor = XLColor.White;
+                        worksheet.Cell(currentRow, i).Style.Font.FontColor = XLColor.Black;
                     }
 
                     worksheet2.Cell(currentRow2, 1).Value = "Fecha";
