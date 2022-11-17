@@ -523,7 +523,7 @@ namespace ApiDavis.Infraestructure.Repositories
                 decimal promedioSecond = 0;
                 if (dto.idPrimeraEstacion != 0)
                 {
-                    var dataFirst = await _context.DataDavis.Where(x => x.EstacionId == dto.idPrimeraEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).OrderByDescending(x=>x.fecha).ToListAsync();
+                    var dataFirst = await _context.DataDavis.Where(x => x.EstacionId == dto.idPrimeraEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).ToListAsync();
                     if (dataFirst.Count > 0)
                     {
                         List<DataDavisEntiti> PrimeraEstacion = new List<DataDavisEntiti>();
@@ -539,7 +539,7 @@ namespace ApiDavis.Infraestructure.Repositories
                 }
                 if (dto.idSegundaEstacion != 0)
                 {
-                    var dataSecond = await _context.DataDavis.Where(x => x.EstacionId == dto.idSegundaEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).OrderByDescending(x => x.fecha).ToListAsync();
+                    var dataSecond = await _context.DataDavis.Where(x => x.EstacionId == dto.idSegundaEstacion && (x.fecha >= Convert.ToDateTime(fechaInicio) && x.fecha <= Convert.ToDateTime(fechaFin))).ToListAsync();
                     if (dataSecond.Count > 0)
                     {
                         List<DataDavisEntiti> SegundaEstacion = new List<DataDavisEntiti>();
