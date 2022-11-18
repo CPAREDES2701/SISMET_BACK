@@ -154,13 +154,10 @@ namespace ApiDavis.Controllers
                     var currentRow2 = 1;
                     for (int i = 1; i <= 22; i++)
                     {
-                        //worksheet.Cell(currentRow, i).Style.Fill.BackgroundColor = XLColor.FromHtml("#2ec6ff");
-                        //worksheet.Cell(currentRow, i).Style.Font.SetBold();
-                        //worksheet.Cell(currentRow, i).Style.Font.FontColor = XLColor.White;
                         worksheet2.Cell(currentRow2, i).Style.Font.SetBold();
                         worksheet2.Cell(currentRow2, i).Style.Font.FontColor = XLColor.Black;
                     }
-
+                    worksheet2.Cell(currentRow2, 1).Style.DateFormat.Format = "dd/MM/yyyy hh:mm";
                     worksheet2.Cell(currentRow2, 1).Value = "Fecha";
                     worksheet2.Cell(currentRow2, 2).Value = "Punto de rocío (ºC)";
                     worksheet2.Cell(currentRow2, 3).Value = "Presión (mb o hPa)";
