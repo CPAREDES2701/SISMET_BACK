@@ -157,8 +157,8 @@ namespace ApiDavis.Controllers
                         //worksheet.Cell(currentRow, i).Style.Fill.BackgroundColor = XLColor.FromHtml("#2ec6ff");
                         //worksheet.Cell(currentRow, i).Style.Font.SetBold();
                         //worksheet.Cell(currentRow, i).Style.Font.FontColor = XLColor.White;
-                        worksheet.Cell(currentRow, i).Style.Font.SetBold();
-                        worksheet.Cell(currentRow, i).Style.Font.FontColor = XLColor.Black;
+                        worksheet2.Cell(currentRow2, i).Style.Font.SetBold();
+                        worksheet2.Cell(currentRow2, i).Style.Font.FontColor = XLColor.Black;
                     }
 
                     worksheet2.Cell(currentRow2, 1).Value = "Fecha";
