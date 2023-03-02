@@ -251,6 +251,7 @@ namespace ApiDavis.Infraestructure.Repositories
                 var fechaF = Convert.ToDateTime(fechaFin);
                 fechaF = fechaF.AddDays(1).AddSeconds(-1);
                 var data = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && Convert.ToDouble(x.temp_c)<=7 && (x.fecha >= fechaI && x.fecha <= fechaF)).ToListAsync();
+                //var data = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && (x.temp_c == "" ? 0 : Convert.ToDouble(x.temp_c)) <= 7 && (x.fecha >= fechaI && x.fecha <= fechaF)).ToListAsync();
                 var dates = new List<DateTime>();
                 var arregloDates = new List<string>();
                 for (var dt = fechaI; dt <= fechaF; dt = dt.AddDays(1))
@@ -259,12 +260,12 @@ namespace ApiDavis.Infraestructure.Repositories
                     arregloDates.Add(dt.Date.ToShortDateString());
                 }
 
-                var dataAgrupada = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && Convert.ToDouble(x.temp_c) <= 7 && (x.fecha >= fechaI && x.fecha <= fechaF)).ToListAsync();
+                var dataAgrupada = await _context.DataDavis.Where(x => x.EstacionId == idEstacion && (x.temp_c == "" ? 0 : Convert.ToDouble(x.temp_c)) <= 7 && (x.fecha >= fechaI && x.fecha <= fechaF)).ToListAsync();
                 if (dataAgrupada.Count() > 0)
                 {
                     var sorted = dataAgrupada.OrderByDescending(da => da.fecha).ToArray();
 
-                    var objecto = sorted.Where(x => Convert.ToDouble(x.temp_c) <= 7).GroupBy(x => x.fecha.Date).Select(g => g.ToList()).ToList();
+                    var objecto = sorted.Where(x => (x.temp_c == "" ? 0 : Convert.ToDouble(x.temp_c)) <= 7).GroupBy(x => x.fecha.Date).Select(g => g.ToList()).ToList();
 
                     if(objecto.Count ==0){
                         
@@ -323,7 +324,7 @@ namespace ApiDavis.Infraestructure.Repositories
                     int acumula = 0;
                     foreach (var item in data)
                     {
-                        acumula = Convert.ToDouble(item.temp_c) <= 20 ? acumula + 1 : acumula;
+                        acumula = (item.temp_c ==""?0 :Convert.ToDouble(item.temp_c)) <= 20 ? acumula + 1 : acumula;
                     }
 
 
@@ -363,10 +364,10 @@ namespace ApiDavis.Infraestructure.Repositories
                     return responseCalculo;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                throw e;
             }
         
         }
@@ -446,10 +447,9 @@ namespace ApiDavis.Infraestructure.Repositories
                         List<DataDavisEntiti> PrimeraEstacion = new List<DataDavisEntiti>();
                         foreach (var davis in dataFirst)
                         {
-                            if (davis.temp_c != "")
-                            {
-                                promedio += Convert.ToDecimal(davis.temp_c);
-                            }
+                            
+                                promedio += davis.temp_c == "" ? 0 : Convert.ToDecimal(davis.temp_c);
+                           
                             
                             PrimeraEstacion.Add(davis);
                         }
@@ -469,10 +469,9 @@ namespace ApiDavis.Infraestructure.Repositories
                         List<DataDavisEntiti> SegundaEstacion = new List<DataDavisEntiti>();
                         foreach (var davis in dataSecond)
                         {
-                            if (davis.temp_c != "")
-                            {
-                                promedioSecond += Convert.ToDecimal(davis.temp_c);
-                            }
+                           
+                            promedioSecond += davis.temp_c == "" ? 0 : Convert.ToDecimal(davis.temp_c);
+                           
                             SegundaEstacion.Add(davis);
                         }
                         obj.promedioTempSegundaEstacion = Convert.ToString(Math.Round(promedioSecond / dataSecond.Count(), 4));
@@ -529,7 +528,11 @@ namespace ApiDavis.Infraestructure.Repositories
                         List<DataDavisEntiti> PrimeraEstacion = new List<DataDavisEntiti>();
                         foreach (var davis in dataFirst)
                         {
-                            promedio += Convert.ToDecimal(davis.temp_c);
+                            
+                                promedio += davis.temp_c == ""? 0: Convert.ToDecimal(davis.temp_c);
+                            
+                            
+                           
                             PrimeraEstacion.Add(davis);
                         }
                         obj.promedioTempEstacion = Convert.ToString(Math.Round(promedio / dataFirst.Count(), 4));
@@ -545,7 +548,7 @@ namespace ApiDavis.Infraestructure.Repositories
                         List<DataDavisEntiti> SegundaEstacion = new List<DataDavisEntiti>();
                         foreach (var davis in dataSecond)
                         {
-                            promedioSecond += Convert.ToDecimal(davis.temp_c);
+                            promedioSecond += davis.temp_c == "" ? 0 : Convert.ToDecimal(davis.temp_c);
                             SegundaEstacion.Add(davis);
                         }
                         obj.promedioTempSegundaEstacion = Convert.ToString(Math.Round(promedioSecond / dataSecond.Count(), 4));
